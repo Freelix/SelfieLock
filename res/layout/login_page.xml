@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent">
+
+  <TextView
+    android:id="@+id/loginNewLoginLabel"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="10dp"
+    android:text="@string/LoginNewProfile"
+    android:textSize="14sp"
+    android:textColor="@color/grey"
+  />
+  
+  <Button 
+    android:id="@+id/btnProfile"
+	android:layout_width="200dp"
+	android:layout_height="wrap_content"
+	android:text="@string/LoginProfile"
+	android:layout_marginTop="16dp"
+    android:layout_centerHorizontal="true"
+    android:layout_below="@id/loginNewLoginLabel"
+  />
+  
+  <TextView
+    android:id="@+id/loginEmailLabel"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="40dp"
+    android:text="@string/LoginEmail"
+    android:textSize="14sp"
+    android:textColor="@color/grey"
+    android:layout_below="@id/btnProfile" 
+  />
+
+  <EditText
+    android:id="@+id/loginEmailText"
+    android:layout_width="220dp"
+    android:layout_height="wrap_content"
+    android:inputType="textEmailAddress"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="10dp"
+    android:layout_below="@id/loginEmailLabel"
+  />
+  
+  <TextView
+    android:id="@+id/loginPasswordLabel"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="10dp"
+    android:textSize="14sp"
+    android:text="@string/LoginPassword"
+    android:textColor="@color/grey" 
+    android:layout_below="@id/loginEmailText"
+  />
+
+  <EditText
+    android:id="@+id/loginPasswordText"
+    android:layout_width="220dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:inputType="textPassword"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="10dp"
+    android:layout_below="@id/loginPasswordLabel"
+  />
+
+  <Button
+    android:id="@+id/btnConnect"
+    android:layout_width="200dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="10dp"
+    android:text="@string/LoginConnect"
+    android:layout_below="@id/loginPasswordText"
+  />
+  
+</RelativeLayout>

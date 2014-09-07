@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- Application name -->
+    <string name="app_name">SelfieLock</string>
+
+    <!-- Custom english strings -->
+    <string name="Sexe">Sexe :</string>
+    <string name="Age">Age :</string>
+    <string name="HairColor">Hair Color :</string>
+    <string name="EyesColor">Eyes Color :</string>
+    <string name="Ethnicity">Ethnicity :</string>
+    <string name="FirstName">First Name :</string>
+    <string name="LastName">Last Name :</string>
+    <string name="Man">Man</string>
+    <string name="Woman">Woman</string>
+    <string name="Username">Username :</string>
+    <string name="Password">Password :</string>
+    <string name="ImgProfileDesc">Your picture</string>
+
+    <string name="Save">Save</string>
+
+    <!-- Navigation -->
+    <string name="HomePage">Home Page</string>
+    <string name="Profile">Profile</string>
+
+    <!-- Login -->
+    <string name="LoginNewProfile">Don\'t have a profile yet ?</string>
+    <string name="LoginProfile">Create a profile</string>
+    <string name="LoginEmail">Email</string>
+    <string name="LoginPassword">Password</string>
+    <string name="LoginConnect">Sign In</string>
+    <string name="LoginCreate">Sign Up</string>
+    <string name="LoginError">The username or the password is not correct</string>
+    
+    <string-array name="types">
+      <item>Type 1</item>
+      <item>Type 2</item>
+      <item>Type 3</item>
+    </string-array>
+    <string-array name="types_values">
+      <item>1</item>
+      <item>2</item>
+      <item>3</item>
+    </string-array>
+    
+    <!-- Achievements -->
+    <string name="achievement_header">Achievements</string>
+
+</resources>

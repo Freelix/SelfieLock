@@ -1,0 +1,12 @@
+<resources>
+
+    <!--  Colors used in Profile Section -->
+    
+    <color name="lightBlue">#0080FF</color>
+    <color name="grey">#808080</color>
+    
+    <!-- For achievement unlock -->
+    <color name="achievement_hover">#E5F5FA</color>
+    <color name="achievement_unlock">#30d758</color>
+
+</resources>
