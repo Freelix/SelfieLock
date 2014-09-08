@@ -14,24 +14,34 @@
         android:label="@string/app_name" >
         
         <activity
+            android:name="com.selfielock.views.LogInPage"
+            android:label="@string/LogInPage" >
+        </activity>
+        
+        <activity
             android:name="com.selfielock.views.MainPage"
             android:label="@string/HomePage" >
         </activity>
         
         <activity
             android:name="com.selfielock.views.ProfilePage"
-            android:label="@string/Profile" >
+            android:label="@string/Profile" >      
+        </activity>
+        
+        <activity
+            android:name="com.selfielock.views.SettingsPage"
+            android:label="@string/SettingsPage" >
         </activity>
              
          <activity 
              android:name="com.selfielock.tabs.MainActivity"
              android:label="@string/app_name" >
              
-            <intent-filter>
+             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
  
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+             </intent-filter>
         </activity>
     </application>
 

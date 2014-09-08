@@ -30,7 +30,7 @@ public class Tab1 extends Fragment {
   
     private boolean VerifyIfSignedIn()
     {
-	    boolean isSignedIn = false;
+	    boolean isSignedIn = true;
 	  
 	    // TODO: Implement that function
 	  
@@ -43,11 +43,11 @@ public class Tab1 extends Fragment {
     	
 	    if (VerifyIfSignedIn())
 	    	frag = new MainPage();
-        else
-        	frag = new LogInPage();
+        /*else
+        	frag = new LogInPage();*/
 	    
 	    if (frag != null)
 	    	getFragmentManager().beginTransaction().replace(R.id.layoutToReplace, frag).commit();
-  }
+    }
  
 }

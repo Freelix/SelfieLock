@@ -23,8 +23,10 @@
     <string name="Save">Save</string>
 
     <!-- Navigation -->
+    <string name="LogInPage">Login Page</string>
     <string name="HomePage">Home Page</string>
     <string name="Profile">Profile</string>
+    <string name="SettingsPage">Settings Page</string>
 
     <!-- Login -->
     <string name="LoginNewProfile">Don\'t have a profile yet ?</string>
@@ -48,5 +50,15 @@
     
     <!-- Achievements -->
     <string name="achievement_header">Achievements</string>
+    
+    <!-- MainPage -->
+    <string name="messageActivate">Tap on the button to activate the connection with other devices</string>
+    <string name="messageDeactivate">Tap on the button to not be disturbed</string>
+    <string name="imgButtonOnOffDesc">Activate or deactivate the scanning of other devices</string>
+    
+    <string name="searchingForConnOn">Searching for connections is <![CDATA[<b><font color=#00CC00>ACTIVATED</b>]]></string>
+    <string name="searchingForConnOff">Searching for connections is <![CDATA[<b><font color=#FF0000>DEACTIVATED</b>]]></string>
+    <string name="bluetoothOn">Bluetooth is <![CDATA[<b><font color=#00CC00>ACTIVATED</b>]]></string>
+    <string name="bluetoothOff">Bluetooth is <![CDATA[<b><font color=#FF0000>DEACTIVATED</b>]]></string>
 
 </resources>
