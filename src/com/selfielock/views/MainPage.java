@@ -1,13 +1,20 @@
 package com.selfielock.views;
 
 import android.app.Fragment;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Html;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+import com.selfielock.utils.CustomBluetoothManager;
 
 import com.selfielock.R;
 
@@ -23,6 +30,7 @@ public class MainPage extends Fragment{
 	private int intBluetoothOn;
 	private int intSearchingForConnOn;
 	private int intSearchingForConnOff;
+	private String noBluetoothMessage = null;
 	
 	public View getRootView()
 	{
@@ -40,6 +48,29 @@ public class MainPage extends Fragment{
 
 	    return rootView;
 	}
+	
+	private OnClickListener imgOnOffListener = new OnClickListener() {
+		  
+	    @Override
+	    public void onClick(View v) {
+	    	Spanned txt = Html.fromHtml(getResources().getString(intSearchingForConnOff));
+	    	
+	    	if (txtSearching.getText().toString().equals(txt.toString()))
+	    	{ 
+	    		// Change to Active
+	    		imgOnOff.setImageResource(R.drawable.on_button);
+	    		SetProperColorToMessage(txtSearching, intSearchingForConnOn);
+	    		
+	    		// TODO: Initialise Bluetooth Search
+	    	}
+	    	else
+	    	{
+	    		// Change to Inactive
+	    		imgOnOff.setImageResource(R.drawable.off_button);
+	    		SetProperColorToMessage(txtSearching, intSearchingForConnOff);
+	    	}
+	    }
+    };
   
     private void InitialiseControls()
     {  
@@ -56,6 +87,10 @@ public class MainPage extends Fragment{
 	    	intBluetoothOn = R.string.bluetoothOn;
 	    	intSearchingForConnOn = R.string.searchingForConnOn;
 	    	intSearchingForConnOff = R.string.searchingForConnOff;
+	    	noBluetoothMessage = getResources().getString(R.string.noBluetooth);
+	    	
+	    	// Assign a function to them
+	    	imgOnOff.setOnClickListener(imgOnOffListener);
 	    }
     }
     
@@ -68,20 +103,12 @@ public class MainPage extends Fragment{
     private void ConfigureLayout()
     {
     	// Bluetooth Message
-    	if (IsBluetoothActivated())
+    	if (CustomBluetoothManager.IsBluetoothActivated(getActivity(), noBluetoothMessage))
     		SetProperColorToMessage(txtBluetoothOnOff, intBluetoothOn);
     	else
     		SetProperColorToMessage(txtBluetoothOnOff, intBluetoothOff);
     	
         // Connection Message
     	SetProperColorToMessage(txtSearching, intSearchingForConnOff);
-    }
-    
-    private boolean IsBluetoothActivated()
-    {
-    	// TODO: Implement that function
-    	boolean activated = false;
-    	
-    	return activated;
     }
 }

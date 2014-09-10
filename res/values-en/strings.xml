@@ -51,6 +51,9 @@
     <!-- Achievements -->
     <string name="achievement_header">Achievements</string>
     
+    <!-- Errors -->
+    <string name="noBluetooth">Your device does not support Bluetooth</string>
+    
     <!-- MainPage -->
     <string name="messageActivate">Tap on the button to activate the connection with other devices</string>
     <string name="messageDeactivate">Tap on the button to not be disturbed</string>
