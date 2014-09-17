@@ -6,7 +6,7 @@ public class ConnectionStatus {
 	
 	public static boolean IsSignedIn()
 	{
-		// Make a request to a file/server to know if the user is signed in.
+		// TODO: Make a request to a file/server to know if the user is signed in.
 		// For the purpose of testing, we put this in a static variable
 		return isSignedIn;
 	}

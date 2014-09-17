@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent">
+  
+  <ImageView
+	android:id="@+id/imgOtherPerson"
+	android:contentDescription=""
+	android:layout_width="200dp"
+	android:layout_height="200dp"
+	android:layout_centerHorizontal="true"
+	android:layout_marginTop="20dp"
+	android:src="@drawable/ic_launcher"	    
+   />  
+    
+  <TextView
+    android:id="@+id/codeLabel"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_centerVertical="true"
+    android:text="Please enter the other person code"
+    android:textSize="14sp"
+  />
+
+  <EditText
+    android:id="@+id/codeText"
+    android:layout_width="220dp"
+    android:layout_height="wrap_content"
+    android:inputType="textEmailAddress"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="10dp"
+    android:layout_below="@id/codeLabel"
+  />
+
+  <Button
+    android:id="@+id/btnSendCode"
+    android:layout_width="200dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="30dp"
+    android:text="Send code"
+    android:layout_below="@id/codeText"
+  />
+  
+</RelativeLayout>

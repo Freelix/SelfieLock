@@ -27,6 +27,7 @@
     <string name="HomePage">Home Page</string>
     <string name="Profile">Profile</string>
     <string name="SettingsPage">Settings Page</string>
+    <string name="LockPage">Lock</string>
 
     <!-- Login -->
     <string name="LoginNewProfile">Don\'t have a profile yet ?</string>
@@ -53,6 +54,7 @@
     
     <!-- Errors -->
     <string name="noBluetooth">Your device does not support Bluetooth</string>
+    <string name="badCode">The given code is not correct</string>
     
     <!-- MainPage -->
     <string name="messageActivate">Tap on the button to activate the connection with other devices</string>

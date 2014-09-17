@@ -1,22 +1,20 @@
 package com.selfielock.views;
 
 import android.app.Fragment;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothManager;
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-import com.selfielock.utils.CustomBluetoothManager;
 
 import com.selfielock.R;
+import com.selfielock.utils.CustomBluetoothManager;
 
 public class MainPage extends Fragment{
 	
@@ -31,6 +29,8 @@ public class MainPage extends Fragment{
 	private int intSearchingForConnOn;
 	private int intSearchingForConnOff;
 	private String noBluetoothMessage = null;
+
+	Button btnTemp = null;
 	
 	public View getRootView()
 	{
@@ -71,6 +71,17 @@ public class MainPage extends Fragment{
 	    	}
 	    }
     };
+    
+    private OnClickListener btnTempListener = new OnClickListener() {
+		  
+	    @Override
+	    public void onClick(View v) {    	
+	    	Intent intent = new Intent(getActivity(), LockPage.class);
+	    	startActivity(intent);
+	    	
+	    	getActivity().finish();
+	    }
+    };
   
     private void InitialiseControls()
     {  
@@ -91,6 +102,9 @@ public class MainPage extends Fragment{
 	    	
 	    	// Assign a function to them
 	    	imgOnOff.setOnClickListener(imgOnOffListener);
+	    	
+	    	btnTemp = (Button) rootView.findViewById(R.id.btnTemp);
+	    	btnTemp.setOnClickListener(btnTempListener);
 	    }
     }
     
