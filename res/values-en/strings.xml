@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="action_settings">Settings</string>
-
+    
     <!-- Application name -->
     <string name="app_name">SelfieLock</string>
 
@@ -51,6 +49,7 @@
     
     <!-- Achievements -->
     <string name="achievement_header">Achievements</string>
+    <string name="achievement_unlocked">Achievement unlocked : </string>
     
     <!-- Errors -->
     <string name="noBluetooth">Your device does not support Bluetooth</string>
@@ -65,5 +64,8 @@
     <string name="searchingForConnOff">Searching for connections is <![CDATA[<b><font color=#FF0000>DEACTIVATED</b>]]></string>
     <string name="bluetoothOn">Bluetooth is <![CDATA[<b><font color=#00CC00>ACTIVATED</b>]]></string>
     <string name="bluetoothOff">Bluetooth is <![CDATA[<b><font color=#FF0000>DEACTIVATED</b>]]></string>
+    
+    <!-- Menu -->
+    <string name="menu_settings">Settings</string>
 
 </resources>

@@ -5,18 +5,26 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.selfielock.R;
 import com.selfielock.utils.ConnectionStatus;
 import com.selfielock.views.LogInPage;
+import com.selfielock.views.ProfilePage;
+import com.selfielock.views.SettingsPage;
  
 public class MainActivity extends Activity {
-    // Declare Tab Variable
-    ActionBar.Tab Tab1, Tab2, Tab3;
-    Fragment fragmentTab1 = null;
-    Fragment fragmentTab2 = null;
-    Fragment fragmentTab3 = null;
+    
+    private ActionBar.Tab Tab1, Tab2, Tab3;
+    
+    private Fragment fragmentTab1 = null;
+    private Fragment fragmentTab2 = null;
+    private Fragment fragmentTab3 = null;
  
+    private ActionBar actionBar = null;
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +36,7 @@ public class MainActivity extends Activity {
         	fragmentTab2 = new Tab2();
         	fragmentTab3 = new Tab3();
         	
-	        ActionBar actionBar = getActionBar();
+	        actionBar = getActionBar();
 	 
 	        // Hide Actionbar Icon
 	        actionBar.setDisplayShowHomeEnabled(false);
@@ -60,6 +68,44 @@ public class MainActivity extends Activity {
 	    	startActivity(intent);
 	    	
 	    	this.finish();
+        }
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.settings_menu, menu);
+        return true;
+    }
+
+    // The options when you click on the menu button
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            
+            // Redirect to preferences
+	        case R.id.action_settings:
+	            
+	        	Fragment frag = new SettingsPage();
+	        	
+	        	try
+	        	{
+		        	if (actionBar == null)
+		        		actionBar = getActionBar();
+		    
+			        actionBar.hide();
+		        	
+		        	getFragmentManager().beginTransaction().replace(R.id.layoutToReplace, frag).commit();	
+	        	}
+	        	catch(Exception ex)
+	        	{
+	        		Log.i("CustomError", "Error while opening preferences");
+	        		actionBar.show();
+	        	}
+	        	
+	            return true;
+
+	        default:
+	            return super.onOptionsItemSelected(item);
         }
     }
 }

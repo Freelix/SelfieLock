@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.selfielock.R;
+import com.selfielock.achievement.CustomToast;
 import com.selfielock.utils.CustomBluetoothManager;
 
 public class MainPage extends Fragment{
