@@ -6,6 +6,7 @@
   android:layout_height="fill_parent">
 
 <RelativeLayout
+      android:id="@+id/RelativeLayoutProfilePage"
 	  android:layout_width="wrap_content"
 	  android:layout_height="wrap_content">
 	  
@@ -13,7 +14,7 @@
 	    android:id="@+id/imgProfile"
 	    android:contentDescription="@string/ImgProfileDesc"
 	    android:layout_width="fill_parent"
-	    android:layout_height="130dp"
+	    android:layout_height="150dp"
 	    android:src="@drawable/ic_launcher"	    
 	  />
 	  
@@ -45,9 +46,8 @@
 	   
 	  <EditText 
 	    android:id="@+id/textFirstName"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content" 
-	    android:layout_toRightOf="@id/labelFirstName"
+	    android:layout_width="250dp"
+	    android:layout_height="wrap_content"
 	    android:layout_below="@id/labelProfile"
 	    android:layout_marginTop="27dp"
 	    style="@style/ProfileTextItem"
@@ -64,9 +64,8 @@
 	   
 	  <EditText 
 	    android:id="@+id/textLastName"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content" 
-	    android:layout_toRightOf="@id/labelLastName"
+	    android:layout_width="250dp"
+	    android:layout_height="wrap_content"
 	    android:layout_below="@id/textFirstName"
 	    style="@style/ProfileTextItem"
 	  />
@@ -95,6 +94,7 @@
 	      	android:layout_height="wrap_content"
 	      	android:text="@string/Man"
 	      />
+	      
 	      <RadioButton 
 	      	android:id="@+id/radioWoman"
 	      	android:layout_width="wrap_content"
@@ -104,7 +104,7 @@
 	      />
       </RadioGroup>
 	  
-	  <TextView 
+	  <!-- <TextView 
 	    android:id="@+id/labelAge"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content" 
@@ -174,6 +174,24 @@
 	    android:layout_toRightOf="@id/labelUsername"
 	    android:layout_below="@id/textEyesColor"
 	    style="@style/ProfileTextItem"
+	  />-->
+	  
+	  <TextView 
+	    android:id="@+id/labelEmail"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content" 
+	    android:text="@string/Email"
+	    android:layout_below="@id/groupRadioSexe"
+	    style="@style/ProfileLabelItem"
+	  />
+	   
+	  <EditText 
+	    android:id="@+id/textEmail"
+	    android:layout_width="250dp"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@id/groupRadioSexe"
+	    android:inputType="textEmailAddress"
+	    style="@style/ProfileTextItem"
 	  />
 	  
 	  <TextView 
@@ -181,21 +199,21 @@
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content" 
 	    android:text="@string/Password"
-	    android:layout_below="@id/textUsername"
+	    android:layout_below="@id/textEmail"
 	    style="@style/ProfileLabelItem"
 	  />
 	   
 	  <EditText 
 	    android:id="@+id/textPassword"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content" 
-	    android:layout_toRightOf="@id/labelPassword"
-	    android:layout_below="@id/textUsername"
+	    android:layout_width="250dp"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@id/textEmail"
+	    android:inputType="textPassword"
 	    style="@style/ProfileTextItem"
 	  />
 	  
 	  <Button 
-	    android:id="@+id/saveProfile"
+	    android:id="@+id/btnSaveProfile"
 	    android:layout_width="200dp"
 	    android:layout_height="wrap_content"
 	    android:text="@string/Save"

@@ -15,10 +15,14 @@
     <string name="Man">Man</string>
     <string name="Woman">Woman</string>
     <string name="Username">Username :</string>
+    <string name="Email">Email :</string>
     <string name="Password">Password :</string>
     <string name="ImgProfileDesc">Your picture</string>
 
     <string name="Save">Save</string>
+    <string name="SaveError">You must fill all the fields</string>
+    <string name="EmailAlreadyExist">This email is already used</string>
+    <string name="EmailNotValid">The email is not valid</string>
 
     <!-- Navigation -->
     <string name="LogInPage">Login Page</string>

@@ -2,7 +2,7 @@ package com.selfielock.utils;
 
 public class ConnectionStatus {
 	
-	private static boolean isSignedIn = true;
+	private static boolean isSignedIn = false;
 	
 	public static boolean IsSignedIn()
 	{

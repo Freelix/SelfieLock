@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import com.selfielock.R;
+import com.selfielock.utils.SLUtils;
 
 public class BluetoothMessage {
     
@@ -30,19 +31,10 @@ public class BluetoothMessage {
     {
         // TODO: Change for random
         String txtMsg = "12345"; 
-        byte[] backgroundImg = ImageToByte(R.drawable.success);
+        byte[] backgroundImg = SLUtils.ImageToByte(R.drawable.success, resources);
         
         sendMessage(txtMsg);
         sendImage(backgroundImg);
-    }
-    
-    private byte[] ImageToByte(int imageId)
-    {   
-        Bitmap bitmap = BitmapFactory.decodeResource(resources, imageId);     
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos); 
-        byte[] b = baos.toByteArray();
-        return b;
     }
     
     private void sendMessage(String msg) 

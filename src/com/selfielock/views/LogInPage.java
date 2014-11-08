@@ -11,8 +11,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.selfielock.R;
+import com.selfielock.database.UserEntity;
+import com.selfielock.database.UserTransactions;
 import com.selfielock.tabs.MainActivity;
 import com.selfielock.utils.ConnectionStatus;
+import com.selfielock.utils.Cryptography;
 
 public class LogInPage extends Activity {
 	
@@ -44,17 +47,29 @@ public class LogInPage extends Activity {
     private OnClickListener btnConnectListener = new OnClickListener() {
 	  
 	    @Override
-	    public void onClick(View v) {		    
-	    	// TODO: Correct that part
-	    	if (!loginEmailText.getText().toString().matches("") && !loginPasswordText.getText().toString().matches(""))
-	    	{    		
-	    		// Signing in
-	    		ConnectionStatus.SetIsSignedIn(true);
-	    		
-	    		// Redirect to MainActivity
-	    		Intent intent = new Intent(context, MainActivity.class);
-		    	startActivity(intent);
-	    	}
+	    public void onClick(View v) {		    	        
+	        UserTransactions ut = new UserTransactions(context);
+	        UserEntity user = ut.getUserByEmail(loginEmailText.getText().toString());
+	        
+	        String clearTextPass = null;
+	        
+	        try 
+	        {
+                clearTextPass = Cryptography.decrypt(Cryptography.MASTERPASSWORD, user.getPassword());
+            } 
+	        catch (Exception e) {
+                e.printStackTrace();
+            }
+	        
+	        if (user != null && clearTextPass != null && clearTextPass.equals(loginPasswordText.getText().toString()))
+	        {
+	            // Signing in
+                ConnectionStatus.SetIsSignedIn(true);
+                
+                // Redirect to MainActivity
+                Intent intent = new Intent(context, MainActivity.class);
+                startActivity(intent);
+	        }
 	    	else
 	    	{
 	    		Toast.makeText(context, getResources().getString(R.string.LoginError), Toast.LENGTH_SHORT).show();
