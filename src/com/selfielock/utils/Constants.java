@@ -15,4 +15,7 @@ public class Constants {
     public static final String IS_SIGNED_IN = "SignedIn";
     public static final String SIGNED_IN_USER_EMAIL ="SignedInUserEmail";
     
+    // Used to browse images
+    public static final int SELECT_PICTURE = 1;
+    
 }

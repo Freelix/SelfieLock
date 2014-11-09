@@ -47,6 +47,10 @@
     
     <!-- Statistics -->
     <string name="stats">Statistics</string>
+    <string name="numberOfWin">Number of win :</string>
+    <string name="numberOfLose">Number of fail :</string>
+    <string name="timesPlayed">Times played :</string>
+    <string name="numberOfAchievements">Achievements unlocked :</string>
     
     <string-array name="types">
       <item>Type 1</item>

@@ -18,7 +18,7 @@
         android:text="This is Fragment 2" />-->
         
     <ImageView
-	    android:id="@+id/imgProfile2"
+	    android:id="@+id/statsImgProfile"
 	    android:contentDescription="@string/ImgProfileDesc"
 	    android:layout_width="fill_parent"
 	    android:layout_height="150dp"
@@ -27,14 +27,14 @@
 	  />
 	  
 	  <TextView 
-	    android:id="@+id/labelProfile2"
+	    android:id="@+id/statsLabelProfile"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content" 
 	    android:text="@string/Profile"
 	    android:textStyle="bold"
 	    android:textColor="@color/lightBlue"
 	    android:textSize="30sp"
-	    android:layout_below="@id/imgProfile2"
+	    android:layout_below="@id/statsImgProfile"
 	    android:layout_marginTop="30dp"
 	    android:focusable="true"
 	    android:focusableInTouchMode="true"
@@ -44,32 +44,20 @@
 	  <!-- Profile starts here -->
 	  
 	  <TextView 
-	    android:id="@+id/labelFirstName2"
+	    android:id="@+id/statsLabelName"
 	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content" 
-	    android:text="@string/FirstName"
-	    android:layout_below="@id/labelProfile2"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@id/statsLabelProfile"
 	    android:layout_marginTop="30dp"
 	    style="@style/ProfileLabelItem"
 	    android:layout_centerHorizontal="true"
 	  />
 	  
 	  <TextView 
-	    android:id="@+id/labelLastName2"
+	    android:id="@+id/statsLabelEmail"
 	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content" 
-	    android:text="@string/LastName"
-	    android:layout_below="@id/labelFirstName2"
-	    style="@style/ProfileLabelItem"
-	    android:layout_centerHorizontal="true"
-	  />
-	  
-	  <TextView 
-	    android:id="@+id/labelEmail2"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content" 
-	    android:text="@string/Email"
-	    android:layout_below="@id/labelLastName2"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@id/statsLabelName"
 	    style="@style/ProfileLabelItem"
 	    android:layout_centerHorizontal="true"
 	  />
@@ -84,7 +72,7 @@
 	    android:textStyle="bold"
 	    android:textColor="@color/lightBlue"
 	    android:textSize="30sp"
-	    android:layout_below="@id/labelEmail2"
+	    android:layout_below="@id/statsLabelEmail"
 	    android:layout_marginTop="30dp"
 	    android:focusable="true"
 	    android:focusableInTouchMode="true"
@@ -96,8 +84,7 @@
 	  <TextView 
 	    android:id="@+id/labelStatsSucceed"
 	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content" 
-	    android:text="@string/FirstName"
+	    android:layout_height="wrap_content"
 	    android:layout_below="@id/labelStatistics"
 	    android:layout_marginTop="30dp"
 	    style="@style/ProfileLabelItem"
@@ -107,8 +94,7 @@
 	  <TextView 
 	    android:id="@+id/labelStatsFailed"
 	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content" 
-	    android:text="@string/FirstName"
+	    android:layout_height="wrap_content"
 	    android:layout_below="@id/labelStatsSucceed"
 	    style="@style/ProfileLabelItem"
 	    android:layout_centerHorizontal="true"
@@ -117,9 +103,17 @@
 	  <TextView 
 	    android:id="@+id/labelStatsTimesPlayed"
 	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content" 
-	    android:text="@string/FirstName"
+	    android:layout_height="wrap_content"
 	    android:layout_below="@id/labelStatsFailed"
+	    style="@style/ProfileLabelItem"
+	    android:layout_centerHorizontal="true"
+	  />
+	  
+	  <TextView 
+	    android:id="@+id/labelStatsNumberAchievements"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@id/labelStatsTimesPlayed"
 	    style="@style/ProfileLabelItem"
 	    android:layout_centerHorizontal="true"
 	  />

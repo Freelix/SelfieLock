@@ -5,6 +5,7 @@ import com.selfielock.database.UserEntity;
 import com.selfielock.database.UserTransactions;
 import com.selfielock.tabs.MainActivity;
 import com.selfielock.utils.ConnectionStatus;
+import com.selfielock.utils.Constants;
 import com.selfielock.utils.Cryptography;
 import com.selfielock.utils.SLUtils;
 
@@ -39,8 +40,6 @@ public class ProfilePage extends Activity {
     private Button btnSaveProfile;
     
     private Context context;
-    
-    private final int SELECT_PICTURE = 1;
 		
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -143,13 +142,13 @@ public class ProfilePage extends Activity {
             Intent intent = new Intent();
             intent.setType("image/*");
             intent.setAction(Intent.ACTION_GET_CONTENT);//
-            startActivityForResult(Intent.createChooser(intent, "Select a profile picture"), SELECT_PICTURE);
+            startActivityForResult(Intent.createChooser(intent, "Select a profile picture"), Constants.SELECT_PICTURE);
         }
     };
     
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            if (requestCode == SELECT_PICTURE) {
+            if (requestCode == Constants.SELECT_PICTURE) {
                 Uri selectedImageUri = data.getData();
                 imgProfile.setImageURI(selectedImageUri);
             }
