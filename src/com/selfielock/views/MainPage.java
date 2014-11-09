@@ -40,6 +40,10 @@ import com.selfielock.bluetooth.BlueUtility;
 import com.selfielock.bluetooth.BluetoothMessage;
 import com.selfielock.bluetooth.DiscoveryFinishThread;
 import com.selfielock.bluetooth.MessageType;
+import com.selfielock.database.UserEntity;
+import com.selfielock.database.UserTransactions;
+import com.selfielock.tabs.MainActivity;
+import com.selfielock.utils.ConnectionStatus;
 import com.selfielock.utils.Constants;
 import com.selfielock.utils.CustomBluetoothManager;
 
@@ -50,6 +54,8 @@ public class MainPage extends Fragment{
 	private ImageView imgOnOff = null;
 	private TextView txtSearching = null;
 	private TextView txtBluetoothOnOff = null;
+	private TextView textUser = null;
+	private Button btnLogOut = null;
 	
 	private int intBluetoothOff;
 	private int intBluetoothOn;
@@ -163,6 +169,22 @@ public class MainPage extends Fragment{
 	    	}
 	    }
     };
+    
+    private OnClickListener btnLogOutListener = new OnClickListener() {
+        
+        @Override
+        public void onClick(View v) {
+            
+            // Log out
+            ConnectionStatus.SignOut(getActivity());
+            
+            // Redirect to LogInPage
+            Intent intent = new Intent(getActivity(), LogInPage.class);
+            startActivity(intent);
+            
+            getActivity().finish();
+        }
+    };
 
     private void InitializeControls()
     {  
@@ -173,6 +195,13 @@ public class MainPage extends Fragment{
 	    	imgOnOff = (ImageView) rootView.findViewById(R.id.imgButtonOnOff);
 	    	txtSearching = (TextView) rootView.findViewById(R.id.textSearchingMessage);
 	    	txtBluetoothOnOff = (TextView) rootView.findViewById(R.id.bluetoothOnOff);
+	    	btnLogOut = (Button) rootView.findViewById(R.id.btnLogOut);
+	    	
+	    	// Show the message at the top of the screen
+	    	textUser = (TextView) rootView.findViewById(R.id.textUser);
+	    	UserTransactions ut = new UserTransactions(getActivity());
+	    	UserEntity user = ut.getUserByEmail(ConnectionStatus.getUserSignedIn(getActivity()));
+	    	textUser.setText(getResources().getString(R.string.textUser) + " " + user.getFirstName() + " " + user.getLastName());
  	    	
 	    	// Get messages
 	    	intBluetoothOff = R.string.bluetoothOff;
@@ -183,6 +212,7 @@ public class MainPage extends Fragment{
 	    	
 	    	// Assign a function to them
 	    	imgOnOff.setOnClickListener(imgOnOffListener);
+	    	btnLogOut.setOnClickListener(btnLogOutListener);
 	    }
     }
     

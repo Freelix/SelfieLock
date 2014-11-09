@@ -116,11 +116,13 @@ public class ProfilePage extends Activity {
                             // TODO: Add an email confirmation with a custom message
                             
                             // Signing in
-                            ConnectionStatus.SetIsSignedIn(true);
+                            ConnectionStatus.SignIn(ProfilePage.this, textEmail.getText().toString());
                             
                             // Redirect to MainActivity
                             Intent intent = new Intent(context, MainActivity.class);
                             startActivity(intent);
+                            
+                            ProfilePage.this.finish();
                         }
                         else
                             Toast.makeText(context, getResources().getString(R.string.EmailAlreadyExist), Toast.LENGTH_SHORT).show(); 

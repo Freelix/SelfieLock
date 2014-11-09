@@ -40,6 +40,14 @@
     <string name="LoginCreate">Sign Up</string>
     <string name="LoginError">The username or the password is not correct</string>
     
+    <!-- Tabs -->
+    <string name="mainTab1">Main</string>
+    <string name="mainTab2">Profile</string>
+    <string name="mainTab3">Achievements</string>
+    
+    <!-- Statistics -->
+    <string name="stats">Statistics</string>
+    
     <string-array name="types">
       <item>Type 1</item>
       <item>Type 2</item>
@@ -61,8 +69,10 @@
     
     <!-- MainPage -->
     <string name="messageActivate">Tap on the button to activate the connection with other devices</string>
+    <string name="textUser">Welcome</string>
     <string name="messageDeactivate">Tap on the button to not be disturbed</string>
     <string name="imgButtonOnOffDesc">Activate or deactivate the scanning of other devices</string>
+    <string name="logOut">Log out</string>
     
     <string name="searchingForConnOn">Searching for connections is <![CDATA[<b><font color=#00CC00>ACTIVATED</b>]]></string>
     <string name="searchingForConnOff">Searching for connections is <![CDATA[<b><font color=#FF0000>DEACTIVATED</b>]]></string>

@@ -15,7 +15,10 @@ public class Tab2 extends Fragment {
     	
     	super.onCreate(savedInstanceState);
     	
-        View rootView = inflater.inflate(R.layout.onglet2, container, false);
+        View rootView = inflater.inflate(R.layout.stats, container, false);
+        
+        // TODO: Put logic here
+        
         return rootView;
     }
  

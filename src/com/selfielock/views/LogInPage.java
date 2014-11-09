@@ -3,6 +3,7 @@ package com.selfielock.views;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,6 +16,7 @@ import com.selfielock.database.UserEntity;
 import com.selfielock.database.UserTransactions;
 import com.selfielock.tabs.MainActivity;
 import com.selfielock.utils.ConnectionStatus;
+import com.selfielock.utils.Constants;
 import com.selfielock.utils.Cryptography;
 
 public class LogInPage extends Activity {
@@ -64,11 +66,13 @@ public class LogInPage extends Activity {
 	        if (user != null && clearTextPass != null && clearTextPass.equals(loginPasswordText.getText().toString()))
 	        {
 	            // Signing in
-                ConnectionStatus.SetIsSignedIn(true);
+                ConnectionStatus.SignIn(LogInPage.this, loginEmailText.getText().toString());
                 
                 // Redirect to MainActivity
                 Intent intent = new Intent(context, MainActivity.class);
                 startActivity(intent);
+                
+                LogInPage.this.finish();
 	        }
 	    	else
 	    	{

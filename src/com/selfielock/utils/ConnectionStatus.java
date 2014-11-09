@@ -1,18 +1,40 @@
 package com.selfielock.utils;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
+
 public class ConnectionStatus {
 	
-	private static boolean isSignedIn = false;
+    private static final String SHARED_PREF_CONNECTION_STATUS = "sharedPrefConnexionStatus";
+    
+    public static SharedPreferences getSharedPref(Activity activity)
+    {
+        return activity.getSharedPreferences(SHARED_PREF_CONNECTION_STATUS, Context.MODE_PRIVATE);
+    }
 	
-	public static boolean IsSignedIn()
+	public static boolean IsSignedIn(Activity activity)
 	{
-		// TODO: Make a request to a file/server to know if the user is signed in.
-		// For the purpose of testing, we put this in a static variable
-		return isSignedIn;
+	    return getSharedPref(activity).getBoolean(Constants.IS_SIGNED_IN, false);
 	}
 	
-	public static void SetIsSignedIn(boolean nisSignedIn)
+	public static String getUserSignedIn(Activity activity)
 	{
-		isSignedIn = nisSignedIn;
+        return getSharedPref(activity).getString(Constants.SIGNED_IN_USER_EMAIL, null);
 	}
+	
+	public static void SignIn(Activity activity, String email)
+	{
+        SharedPreferences.Editor editor = getSharedPref(activity).edit();
+        editor.putBoolean(Constants.IS_SIGNED_IN, true);
+        editor.putString(Constants.SIGNED_IN_USER_EMAIL, email);
+        editor.commit();    
+	}
+	
+	public static void SignOut(Activity activity)
+    {
+        SharedPreferences.Editor editor = getSharedPref(activity).edit();
+        editor.putBoolean(Constants.IS_SIGNED_IN, false);
+        editor.commit();       
+    }
 }

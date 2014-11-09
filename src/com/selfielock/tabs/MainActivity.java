@@ -30,7 +30,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_tab_activity);
         
-        if (ConnectionStatus.IsSignedIn())
+        if (ConnectionStatus.IsSignedIn(MainActivity.this))
         {
         	fragmentTab1 = new Tab1();
         	fragmentTab2 = new Tab2();
@@ -48,9 +48,9 @@ public class MainActivity extends Activity {
 	        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 	 
 	        // Set Tab Icon and Titles
-	        Tab1 = actionBar.newTab().setText("Tab1");
-	        Tab2 = actionBar.newTab().setText("Tab2");
-	        Tab3 = actionBar.newTab().setText("Tab3");
+	        Tab1 = actionBar.newTab().setText(getResources().getString(R.string.mainTab1));
+	        Tab2 = actionBar.newTab().setText(getResources().getString(R.string.mainTab2));
+	        Tab3 = actionBar.newTab().setText(getResources().getString(R.string.mainTab3));
 	 
 	        // Set Tab Listeners
 	        Tab1.setTabListener(new TabListener(fragmentTab1));

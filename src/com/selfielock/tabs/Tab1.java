@@ -27,25 +27,11 @@ public class Tab1 extends Fragment {
         
         ShowProperPage();
     }
-  
-    private boolean VerifyIfSignedIn()
-    {
-	    boolean isSignedIn = true;
-	  
-	    // TODO: Implement that function
-	  
-	    return isSignedIn;
-    }
-  
+
     private void ShowProperPage()
     {
-    	Fragment frag = null;
-    	
-	    if (VerifyIfSignedIn())
-	    	frag = new MainPage();
-        /*else
-        	frag = new LogInPage();*/
-	    
+    	Fragment frag = new MainPage();
+
 	    if (frag != null)
 	    	getFragmentManager().beginTransaction().replace(R.id.layoutToReplace, frag).commit();
     }

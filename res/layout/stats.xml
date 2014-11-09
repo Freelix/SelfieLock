@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent">
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+ 
+    <!--<TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="This is Fragment 2" />-->
+        
+    <ImageView
+	    android:id="@+id/imgProfile2"
+	    android:contentDescription="@string/ImgProfileDesc"
+	    android:layout_width="fill_parent"
+	    android:layout_height="150dp"
+	    android:src="@drawable/ic_launcher"
+	    android:layout_centerHorizontal="true"	    
+	  />
+	  
+	  <TextView 
+	    android:id="@+id/labelProfile2"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content" 
+	    android:text="@string/Profile"
+	    android:textStyle="bold"
+	    android:textColor="@color/lightBlue"
+	    android:textSize="30sp"
+	    android:layout_below="@id/imgProfile2"
+	    android:layout_marginTop="30dp"
+	    android:focusable="true"
+	    android:focusableInTouchMode="true"
+	    android:layout_centerHorizontal="true"
+	  />
+	  
+	  <!-- Profile starts here -->
+	  
+	  <TextView 
+	    android:id="@+id/labelFirstName2"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content" 
+	    android:text="@string/FirstName"
+	    android:layout_below="@id/labelProfile2"
+	    android:layout_marginTop="30dp"
+	    style="@style/ProfileLabelItem"
+	    android:layout_centerHorizontal="true"
+	  />
+	  
+	  <TextView 
+	    android:id="@+id/labelLastName2"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content" 
+	    android:text="@string/LastName"
+	    android:layout_below="@id/labelFirstName2"
+	    style="@style/ProfileLabelItem"
+	    android:layout_centerHorizontal="true"
+	  />
+	  
+	  <TextView 
+	    android:id="@+id/labelEmail2"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content" 
+	    android:text="@string/Email"
+	    android:layout_below="@id/labelLastName2"
+	    style="@style/ProfileLabelItem"
+	    android:layout_centerHorizontal="true"
+	  />
+	  
+	  <!-- End of profile section -->
+	  
+	  <TextView 
+	    android:id="@+id/labelStatistics"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content" 
+	    android:text="@string/stats"
+	    android:textStyle="bold"
+	    android:textColor="@color/lightBlue"
+	    android:textSize="30sp"
+	    android:layout_below="@id/labelEmail2"
+	    android:layout_marginTop="30dp"
+	    android:focusable="true"
+	    android:focusableInTouchMode="true"
+	    android:layout_centerHorizontal="true"
+	  />
+	  
+	  <!-- Stats starts here -->
+	  
+	  <TextView 
+	    android:id="@+id/labelStatsSucceed"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content" 
+	    android:text="@string/FirstName"
+	    android:layout_below="@id/labelStatistics"
+	    android:layout_marginTop="30dp"
+	    style="@style/ProfileLabelItem"
+	    android:layout_centerHorizontal="true"
+	  />
+	  
+	  <TextView 
+	    android:id="@+id/labelStatsFailed"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content" 
+	    android:text="@string/FirstName"
+	    android:layout_below="@id/labelStatsSucceed"
+	    style="@style/ProfileLabelItem"
+	    android:layout_centerHorizontal="true"
+	  />
+	  
+	  <TextView 
+	    android:id="@+id/labelStatsTimesPlayed"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content" 
+	    android:text="@string/FirstName"
+	    android:layout_below="@id/labelStatsFailed"
+	    style="@style/ProfileLabelItem"
+	    android:layout_centerHorizontal="true"
+	  />
+
+</RelativeLayout>
+</ScrollView>

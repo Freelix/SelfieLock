@@ -11,4 +11,8 @@ public class Constants {
     public static final String MAN = "Man";
     public static final String WOMAN = "Woman";
     
+    // To know if the user is signed in
+    public static final String IS_SIGNED_IN = "SignedIn";
+    public static final String SIGNED_IN_USER_EMAIL ="SignedInUserEmail";
+    
 }
