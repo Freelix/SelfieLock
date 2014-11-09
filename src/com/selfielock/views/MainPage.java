@@ -98,8 +98,7 @@ public class MainPage extends Fragment{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		rootView = inflater.inflate(R.layout.main_page, container, false);	
-		
+		rootView = inflater.inflate(R.layout.main_page, container, false);
 		InitializeBluetooth();
 	    ConfigureLayout();
 

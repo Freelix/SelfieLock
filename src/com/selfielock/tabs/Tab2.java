@@ -1,10 +1,13 @@
 package com.selfielock.tabs;
 
 import com.selfielock.R;
+import com.selfielock.database.StatsEntity;
+import com.selfielock.database.StatsTransactions;
 import com.selfielock.database.UserEntity;
 import com.selfielock.database.UserTransactions;
 import com.selfielock.utils.ConnectionStatus;
 import com.selfielock.utils.Constants;
+import com.selfielock.utils.SLUtils;
 import com.selfielock.views.ProfilePage;
 
 import android.net.Uri;
@@ -84,15 +87,20 @@ public class Tab2 extends Fragment {
             statsImgProfile.setImageBitmap(bmp);
             statsLabelName.setText(user.getFirstName() + " " + user.getLastName());
             statsLabelEmail.setText(user.getEmail());
+            
+            // Set elements for stats
+            StatsTransactions st = new StatsTransactions(getActivity());
+            StatsEntity statsForUser = st.getStatsByUser(user);
+            
+            if (statsForUser != null)
+            {
+                // Set elements for stats
+                labelStatsSucceed.setText(getResources().getText(R.string.numberOfWin) + " " + statsForUser.getNumberOfWin());
+                labelStatsFailed.setText(getResources().getText(R.string.numberOfLose) + " " + statsForUser.getNumberOfFail());
+                labelStatsTimesPlayed.setText(getResources().getText(R.string.timesPlayed) + " " + statsForUser.getTimesPlayed());
+                labelStatsNumberAchievements.setText(getResources().getText(R.string.numberOfAchievements) + " " + statsForUser.getAchievementsUnlocked());
+            }
         }
-        
-        // TODO: Get Stats by user
-        
-        // Set elements for stats
-        labelStatsSucceed.setText(getResources().getText(R.string.numberOfWin) + " " + 1);
-        labelStatsFailed.setText(getResources().getText(R.string.numberOfLose) + " " + 1);
-        labelStatsTimesPlayed.setText(getResources().getText(R.string.timesPlayed) + " " + 1);
-        labelStatsNumberAchievements.setText(getResources().getText(R.string.numberOfAchievements) + " " + 1);
     }
     
     private OnClickListener statsImgProfileListener = new OnClickListener() {
@@ -101,7 +109,7 @@ public class Tab2 extends Fragment {
         public void onClick(View v) {       
             Intent intent = new Intent();
             intent.setType("image/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);//
+            intent.setAction(Intent.ACTION_GET_CONTENT);
             startActivityForResult(Intent.createChooser(intent, "Select a profile picture"), Constants.SELECT_PICTURE);
         }
     };
@@ -111,6 +119,11 @@ public class Tab2 extends Fragment {
             if (requestCode == Constants.SELECT_PICTURE) {
                 Uri selectedImageUri = data.getData();
                 statsImgProfile.setImageURI(selectedImageUri);
+                
+                UserTransactions ut = new UserTransactions(getActivity());
+                UserEntity user = ut.getUserByEmail(ConnectionStatus.getUserSignedIn(getActivity()));
+                user.setImage(SLUtils.ImageToByte(statsImgProfile));
+                ut.updateUser(user);
             }
         }
     }

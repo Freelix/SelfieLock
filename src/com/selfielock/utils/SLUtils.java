@@ -49,7 +49,8 @@ public class SLUtils {
         Bitmap bitmap = ((BitmapDrawable)image.getDrawable()).getBitmap();
         Bitmap resized = Bitmap.createScaledBitmap(bitmap, 150, 150, true);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        resized.compress(Bitmap.CompressFormat.PNG, 100, baos);  
+        resized.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        
         return baos.toByteArray();
     }
     

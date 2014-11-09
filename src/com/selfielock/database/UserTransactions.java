@@ -13,10 +13,12 @@ import com.selfielock.database.UserContract.UserScheme;
 public class UserTransactions extends DatabaseInstance {
     
     private DatabaseHelper slDbHelper;
+    private Context context;
 
     public UserTransactions(Context context) 
     {
         super(context);
+        this.context = context;
         this.slDbHelper = super.getSLDbHelper();
     }
     
@@ -55,7 +57,15 @@ public class UserTransactions extends DatabaseInstance {
         values.put(UserScheme.COLUMN_NAME_PASSWORD, user.getPassword());
 
         // Insert the new row, returning the primary key value of the new row
-        createSuccessful = db.insert(UserScheme.TABLE_NAME, null, values) > 0;   
+        createSuccessful = db.insert(UserScheme.TABLE_NAME, null, values) > 0;
+        
+        // Create the stats for that user
+        if (createSuccessful)
+        {
+            StatsTransactions st = new StatsTransactions(context);
+            createSuccessful = st.AddStatsToUser(user);
+        }
+        
         db.close();
         
         return createSuccessful;
@@ -67,7 +77,9 @@ public class UserTransactions extends DatabaseInstance {
         
         SQLiteDatabase db = slDbHelper.getReadableDatabase();
         
-        createSuccessful = db.delete(UserScheme.TABLE_NAME, UserScheme.COLUMN_NAME_EMAIL + "=" + user.getEmail(), null) > 0;
+        createSuccessful = db.delete(UserScheme.TABLE_NAME, UserScheme.COLUMN_NAME_EMAIL + "='" + user.getEmail() + "'", null) > 0;
+        
+        db.close();
         
         return createSuccessful;
     }
@@ -86,7 +98,9 @@ public class UserTransactions extends DatabaseInstance {
         cv.put(UserScheme.COLUMN_NAME_IMAGE, user.getImage());
         cv.put(UserScheme.COLUMN_NAME_PASSWORD, user.getPassword());
         
-        db.update(UserScheme.TABLE_NAME, cv, UserScheme.COLUMN_NAME_EMAIL + "=" + user.getEmail(), null);
+        db.update(UserScheme.TABLE_NAME, cv, UserScheme.COLUMN_NAME_EMAIL + "='" + user.getEmail() + "'", null);
+        
+        db.close();
         
         return createSuccessful;
     }
