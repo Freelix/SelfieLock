@@ -66,6 +66,14 @@ public class UserTransactions extends DatabaseInstance {
             createSuccessful = st.AddStatsToUser(user);
         }
         
+        // Create the achievement for that user
+        if (createSuccessful)
+        {
+            AchievementCollection ac = new AchievementCollection(user.getEmail());
+            AchievementTransactions at = new AchievementTransactions(context);
+            createSuccessful = at.AddAchievementToUser(user, ac);
+        }
+        
         db.close();
         
         return createSuccessful;
