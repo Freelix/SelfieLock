@@ -17,10 +17,15 @@ public class BluetoothMessage {
     private Resources resources;
     private BluetoothSocket socket;
     
-    public BluetoothMessage(Resources resources, BluetoothSocket socket)
+    private String txtMsg;
+    private byte[] backgroundImg;
+    
+    public BluetoothMessage(Resources resources, BluetoothSocket socket, String txtMsg, byte[] backgroundImg)
     {
         this.resources = resources;
         this.socket = socket;
+        this.txtMsg = txtMsg;
+        this.backgroundImg = backgroundImg;
     }
     
     /***********************************************/
@@ -29,9 +34,8 @@ public class BluetoothMessage {
     
     public void constructMessages()
     {
-        // TODO: Change for random
-        String txtMsg = "12345"; 
-        byte[] backgroundImg = SLUtils.ImageToByte(R.drawable.success, resources);
+        //String txtMsg = "12345"; 
+        //byte[] backgroundImg = SLUtils.ImageToByte(imageId, resources);
         
         sendMessage(txtMsg);
         sendImage(backgroundImg);

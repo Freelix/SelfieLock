@@ -32,14 +32,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.selfielock.R;
 import com.selfielock.tabs.MainActivity;
+import com.selfielock.utils.ConnectionStatus;
 import com.selfielock.utils.Password;
 import com.selfielock.utils.Password.PasswordStrength;
 import com.selfielock.bluetooth.*;
+import com.selfielock.database.StatsEntity;
+import com.selfielock.database.StatsTransactions;
+import com.selfielock.database.UserEntity;
+import com.selfielock.database.UserTransactions;
 
 public class LockPage extends Activity {
 
 	private EditText codeText = null;
 	private Button btnSendCode = null;
+	private Button btnRageQuit = null;
 	
 	private Thread wallpaperThread = null;
 	private Drawable actualWallPaper = null;
@@ -49,6 +55,7 @@ public class LockPage extends Activity {
 	
 	private ImageView imgOtherPerson;
 	private TextView secretCode;
+	private TextView secretCodeOfOtherPerson = null;
 	
 	/*******************************/
     /*** Variables for bluetooth ***/
@@ -67,10 +74,11 @@ public class LockPage extends Activity {
 			
 		setContentView(R.layout.lock_page);
 		
+		String password = getIntent().getExtras().getString("Password");
 		
 		InitialiseControls();
-		Initialize();
-		//SetupWallpaperAndPassword();
+		InitializeListener();
+		SetupWallpaperAndPassword(password);
 	}
 	
 	@Override
@@ -83,12 +91,30 @@ public class LockPage extends Activity {
         super.onDestroy();
     }
 	
+	private void updateStats(boolean success)
+	{
+	    UserTransactions ut = new UserTransactions(getApplicationContext());
+        UserEntity user = ut.getUserByEmail(ConnectionStatus.getUserSignedIn(LockPage.this));
+        
+        StatsTransactions st = new StatsTransactions(getApplicationContext());
+        StatsEntity stats = st.getStatsByUser(user);
+        
+        if (success)
+            stats.setNumberOfWin(stats.getNumberOfWin() + 1);
+        else
+            stats.setNumberOfFail(stats.getNumberOfFail() + 1);
+        
+        stats.setTimesPlayed(stats.getTimesPlayed() + 1);
+        
+        st.updateUserStats(stats);
+	}
+	
     private OnClickListener btnSendCodeListener = new OnClickListener() {
 		  
 	    @Override
 	    public void onClick(View v) {
 	    	
-	    	if (secretCode.getText().toString().trim().equals(codeText.getText().toString().trim()))
+	    	if (secretCodeOfOtherPerson.getText().toString().trim().equals(codeText.getText().toString().trim()))
 	    	{
 	    		// Stop the wallpaper thread
 	    		/*wallpaperThread.interrupt();
@@ -102,16 +128,13 @@ public class LockPage extends Activity {
 	    		catch (IOException e) 
 	    		{
 					e.printStackTrace();
-				}
+				}*/
+	    	    
+	    	    // Update stats for a user
+	    	    updateStats(true);
 	    		
 	    		// Go back to MainPage
-	    		Intent intent = new Intent(LockPage.this, MainActivity.class);
-	    		// TODO: putExtra that will show a message in a special box on the MainPage
-		    	startActivity(intent);*/
-	    	    
-	    	    
-	    	    BlueUtility.setEndOfLockPage(true);
-		    	
+	    	    BlueUtility.setEndOfLockPage(true, true);		    	
 		    	LockPage.this.finish();
 	    	}
 	    	else
@@ -120,6 +143,18 @@ public class LockPage extends Activity {
 	    	}
 	    	
 	    }
+    };
+    
+    private OnClickListener btnRageQuitListener = new OnClickListener() {
+        
+        @Override
+        public void onClick(View v) {
+            // Update stats for a user
+            updateStats(false);
+            
+            BlueUtility.setEndOfLockPage(true, false);
+            LockPage.this.finish();
+        }
     };
     
     private void ChangeWallpaper()
@@ -145,7 +180,7 @@ public class LockPage extends Activity {
 	            {
 	                while(true) 
 	                {
-	                    sleep(10000);
+	                    sleep(20000);
 	                    ChangeWallpaper();                    
 	                }
 	            } 
@@ -162,40 +197,41 @@ public class LockPage extends Activity {
         // Get controls
     	codeText = (EditText) findViewById(R.id.codeText);
 		btnSendCode = (Button) findViewById(R.id.btnSendCode);
+		btnRageQuit = (Button) findViewById(R.id.btnRageQuit);
 		  
 		// Assign a function to them
 		btnSendCode.setOnClickListener(btnSendCodeListener);
+		btnRageQuit.setOnClickListener(btnRageQuitListener);
 		
 		imgOtherPerson = (ImageView) findViewById(R.id.imgOtherPerson);
 		secretCode = (TextView) findViewById(R.id.secretCode);
+		secretCodeOfOtherPerson = (TextView) findViewById(R.id.secretCodeOfOtherPerson);
     }
     
-    private void SetupWallpaperAndPassword()
+    private void SetupWallpaperAndPassword(String password) 
     {
     	// Get the actual home wallpaper
     	wallpaper = WallpaperManager.getInstance(getApplicationContext());
-    	actualWallPaper = wallpaper.getDrawable();
-    			
-    	// Temporary initialise a password
-    	pass = new Password(9, PasswordStrength.lowerCaselettersOnly);				
-    	codeText.setText(pass.GetPassword());
+    	actualWallPaper = wallpaper.getDrawable(); 
+    							
+    	secretCode.setText(password);
     			
     	// Switch the background image automatically. Stops when user send the right code.
-    	InitialiseWallpaperThread();
-    	wallpaperThread.start();
+    	//InitialiseWallpaperThread();
+    	//wallpaperThread.start();
     }
     
     /*******************************/
     /****** Bluetooth section ******/
     /*******************************/
     
-    private void Initialize()
+    private void InitializeListener()
     {
-        BlueUtility bluetoothUtil = (BlueUtility) getIntent().getSerializableExtra("BlueUtility");
+        //BlueUtility bluetoothUtil = (BlueUtility) getIntent().getSerializableExtra("BlueUtility");
         
         socket = BlueUtility.bts;
         
-        BluetoothSocketListener bsl = new BluetoothSocketListener(socket, handler, secretCode, imgOtherPerson);
+        BluetoothSocketListener bsl = new BluetoothSocketListener(socket, handler, secretCodeOfOtherPerson, imgOtherPerson);
         Thread messageListener = new Thread(bsl);
         messageListener.start();
     }

@@ -23,6 +23,9 @@ public class BlueUtility implements Serializable {
     // Indicates if we quit the lockPage
     private static boolean endOfLockPage = false;
     
+    // Indicates if the user win
+    private static boolean success = false;
+    
     // Show a message when user go back to MainPage
     private static String[] message = new String[2];
     
@@ -40,11 +43,17 @@ public class BlueUtility implements Serializable {
     {
         return endOfLockPage;
     }
-    
-    public static void setEndOfLockPage(boolean end)
+
+    public static void setEndOfLockPage(boolean end, boolean successOrNot)
     {
         endOfLockPage = end;
+        success = successOrNot;
         setMessage();
+    }
+    
+    public static boolean isSuccess()
+    {
+        return success;
     }
     
     public static String[] getMessage()
@@ -54,7 +63,7 @@ public class BlueUtility implements Serializable {
     
     private static void setMessage()
     {
-        if (actualTime < maxTimeToWait)
+        if (actualTime < maxTimeToWait && success)
         {
             int[] time = SLUtils.getTimeFromSeconds(actualTime);
             message[0] = "Succeed";
@@ -63,7 +72,7 @@ public class BlueUtility implements Serializable {
         else
         {
             message[0] = "Failed";
-            message[1] = "Sorry, you exceed the limit time";
+            message[1] = "Sorry, better chance next time !";
         }
     }
     
@@ -80,9 +89,9 @@ public class BlueUtility implements Serializable {
             for (ParcelUuid id: uuids) {
                 Log.d("BLUETOOTH", "UUID: " + id.getUuid().toString());
                 
-                if (Constants.uuid.compareTo(id.getUuid()) == 0)
+                if (Constants.uuid.compareTo(id.getUuid()) == 0)  
                 {
-                    Log.d("BLUETOOTH", "Device name: " + device.getName());
+                    Log.i("BLUETOOTH", "Device name: " + device.getName());
                     return true;
                 }
             }

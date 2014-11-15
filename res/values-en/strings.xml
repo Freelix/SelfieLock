@@ -52,6 +52,12 @@
     <string name="timesPlayed">Times played :</string>
     <string name="numberOfAchievements">Achievements unlocked :</string>
     
+    <!-- LockPage -->
+    <string name="codeLabel">Please enter the other person code</string>
+    <string name="sendCode">Send Code</string>
+    <string name="profilePicture">Profile picture</string>
+    <string name="btnRageQuit">Rage quit this one</string>
+    
     <string-array name="types">
       <item>Type 1</item>
       <item>Type 2</item>
