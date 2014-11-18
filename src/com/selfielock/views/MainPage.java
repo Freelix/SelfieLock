@@ -46,6 +46,9 @@ import com.selfielock.tabs.MainActivity;
 import com.selfielock.utils.ConnectionStatus;
 import com.selfielock.utils.Constants;
 import com.selfielock.utils.CustomBluetoothManager;
+import com.selfielock.utils.Password;
+import com.selfielock.utils.SLUtils;
+import com.selfielock.utils.Password.PasswordStrength;
 
 public class MainPage extends Fragment{
 	
@@ -89,6 +92,11 @@ public class MainPage extends Fragment{
     // Stock the transfered text and image in those controls
     private TextView mMessageText;
     private ImageView mImage;
+    
+    // Password
+    private Password password;
+    
+    private AsyncTask<Integer, Void, BluetoothSocket> acceptThread;
 	
     /*****************/
     /*** Functions ***/
@@ -113,8 +121,11 @@ public class MainPage extends Fragment{
 	    	
 	    	if (txtSearching.getText().toString().equals(txt.toString()))
 	    	{
-	    	    // Start Bluetooth
-	    	    //ActivateBluetooth();
+	    	    if (!mBluetoothAdapter.isEnabled())
+	    	        ActivateBluetooth();
+	    	    
+	    	    // Initialize password
+	            password = new Password(4, PasswordStrength.numbersOnly);
 	    	    
 	    		// Change to Active
 	    		imgOnOff.setImageResource(R.drawable.on_button);
@@ -149,7 +160,7 @@ public class MainPage extends Fragment{
                 });
 	    	}
 	    	else
-	    	{
+	    	{  
 	    		// Change to Inactive
 	    		imgOnOff.setImageResource(R.drawable.off_button);
 	    		SetProperColorToMessage(txtSearching, intSearchingForConnOff);
@@ -237,6 +248,16 @@ public class MainPage extends Fragment{
     /****** Bluetooth section - Server ******/
     /****************************************/
     
+    private void closeConnection()
+    {
+        try { 
+            btserver.close();
+            Log.i("BLUETOOTH", "Closing connection");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
     @Override
     public void onDestroy() {
         try
@@ -261,15 +282,25 @@ public class MainPage extends Fragment{
         
         if (BlueUtility.isEndOfLockPage())
         {
+            closeConnection();
+            
             // Change to Inactive
             imgOnOff.setImageResource(R.drawable.off_button);
             SetProperColorToMessage(txtSearching, intSearchingForConnOff);
-            BlueUtility.setEndOfLockPage(false);
             
             // Show the appropriate toast
             String[] message = BlueUtility.getMessage();
-            CustomToast toast = new CustomToast(getActivity(), message[0], message[1]);
+            CustomToast toast;
+            
+            if (BlueUtility.isSuccess())
+                toast = new CustomToast(getActivity(), message[0], message[1], R.drawable.success, true);
+            else
+                toast = new CustomToast(getActivity(), message[0], message[1], R.drawable.failed, false);
+            
             toast.ShowToast();
+            
+            // Reinitialize the endOfLockPage
+            BlueUtility.setEndOfLockPage(false, false);
         }
         
         super.onResume();
@@ -317,10 +348,12 @@ public class MainPage extends Fragment{
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 
+                closeConnection();
                 mBluetoothAdapter.cancelDiscovery();
                 threadForDiscovery.interrupt();
                 imgOnOff.setImageResource(R.drawable.off_button);
                 SetProperColorToMessage(txtSearching, intSearchingForConnOff);
+                
             }
         });
     }
@@ -338,7 +371,7 @@ public class MainPage extends Fragment{
     
     private void ShowToast(final String message)
     {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();                
+        Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();               
     }
     
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() 
@@ -364,6 +397,7 @@ public class MainPage extends Fragment{
                 {
                     if (mDeviceList.size() > 0)
                     {
+                        acceptThread.execute();
                         threadForDiscovery.interrupt();
                         mProgressDlg.dismiss();
                         InitializePairing();
@@ -398,15 +432,16 @@ public class MainPage extends Fragment{
                     // Create a bluetooth socket for listening
                     btserver = mBluetoothAdapter.listenUsingInsecureRfcommWithServiceRecord(name, Constants.uuid);
                     
-                    AsyncTask<Integer, Void, BluetoothSocket> acceptThread = new AsyncTask<Integer, Void, BluetoothSocket>() 
+                    acceptThread = new AsyncTask<Integer, Void, BluetoothSocket>() 
                     {              
-                        @Override
+                        @Override 
                         protected BluetoothSocket doInBackground(Integer... params) 
                         {   
                             try
                             {
                                 // Start the socket to accept a connexion (server)
-                                socketListen = btserver.accept(params[0] * 1000); // timeout
+                                socketListen = btserver.accept();
+                                //socketListen = btserver.accept(params[0] * 1000); // timeout
                                 return socketListen;
                             } 
                             catch (IOException e)
@@ -414,12 +449,12 @@ public class MainPage extends Fragment{
                                 Log.d("BLUETOOTH", e.getMessage());
                             }
                 
-                            return null;
+                            return null; 
                         }
                         
                         @Override
                         protected void onPostExecute(BluetoothSocket result) 
-                        {
+                        {        
                             if (result != null)
                             {
                                 // Start the activity who locks the app
@@ -427,6 +462,7 @@ public class MainPage extends Fragment{
                                 
                                 BlueUtility bluetoothUtil = new BlueUtility();
                                 newIntent.putExtra("BlueUtility", bluetoothUtil);
+                                newIntent.putExtra("Password", password.GetPassword());
                                 
                                 BlueUtility.bts = socketListen;
                                 startActivity(newIntent);
@@ -434,7 +470,7 @@ public class MainPage extends Fragment{
                         }
                     };
                 
-                    acceptThread.execute(resultCode);
+                    //acceptThread.execute(resultCode);
                 } 
                 catch (IOException e) 
                 {
@@ -463,9 +499,13 @@ public class MainPage extends Fragment{
             // Client
             socketSend = device.createInsecureRfcommSocketToServiceRecord(Constants.uuid);
             socketSend.connect();
+            
+            UserTransactions ut = new UserTransactions(getActivity());
+            UserEntity user = ut.getUserByEmail(ConnectionStatus.getUserSignedIn(getActivity()));
+            byte[] profileImage = user.getImage();
              
             // Construct and send the message to the other device
-            BluetoothMessage btMessage = new BluetoothMessage(getResources(), socketSend);
+            BluetoothMessage btMessage = new BluetoothMessage(getResources(), socketSend, password.GetPassword(), profileImage);
             
             btMessage.constructMessages();
         } 

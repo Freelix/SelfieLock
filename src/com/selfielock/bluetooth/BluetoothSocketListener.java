@@ -22,7 +22,7 @@ public class BluetoothSocketListener implements Runnable {
         this.handler = handler;
     }
     
-    public void run() {     
+    public void run() {
         try 
         {
             // Server            
@@ -45,12 +45,12 @@ public class BluetoothSocketListener implements Runnable {
                     instream.readFully(byteMessage, 0, byteMessage.length - 1);
                 }
                 
-                if (messageType.equals(MessageType.CodeMessage.getType()))
+                if (messageType.equals(MessageType.CodeMessage.getType())) 
                 {
                     message = new String(byteMessage);
                     
                     handler.post(new MessagePoster(textView, message));
-                    socket.getInputStream();
+                    socket.getInputStream(); 
                 }
                 else if (messageType.equals(MessageType.BackgroundImgMessage.getType()))
                 {

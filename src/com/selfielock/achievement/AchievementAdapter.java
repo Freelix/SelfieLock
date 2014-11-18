@@ -1,6 +1,10 @@
 package com.selfielock.achievement;
 
+import java.util.Iterator;
+
 import com.selfielock.R;
+import com.selfielock.database.AchievementCollection;
+import com.selfielock.database.AchievementTransactions;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -14,15 +18,22 @@ import android.widget.TextView;
 
 public class AchievementAdapter extends ArrayAdapter<Achievement>{
 
-    Context context; 
-    int layoutResourceId;    
-    Achievement data[] = null;
+    private Context context; 
+    private int layoutResourceId;    
+    private Achievement data[] = null;
     
-    public AchievementAdapter(Context context, int layoutResourceId, Achievement[] data) {
+    // Request to database
+    private AchievementTransactions at;
+    private AchievementCollection ac;
+    
+    public AchievementAdapter(Context context, int layoutResourceId, Achievement[] data, String userEmail) {
         super(context, layoutResourceId, data);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
         this.data = data;
+        
+        this.at = new AchievementTransactions(this.context);
+        this.ac = at.getAllAchievementsByUserEmail(userEmail);
     }
 
     @Override
@@ -47,8 +58,9 @@ public class AchievementAdapter extends ArrayAdapter<Achievement>{
             holder = (AchievementHolder)row.getTag();
         }
         
-        if (position == 0 || position == 4)
-        	row.setBackgroundResource(R.drawable.achievement_unlock);
+        // Put green on unlocked achievements        
+        if (ac.getListAchievements().get(position).isUnlocked())
+            row.setBackgroundResource(R.drawable.achievement_unlock);
         
         Achievement achievement = data[position];
         holder.txtTitle.setText(achievement.getDescription());

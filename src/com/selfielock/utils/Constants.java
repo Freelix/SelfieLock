@@ -18,4 +18,7 @@ public class Constants {
     // Used to browse images
     public static final int SELECT_PICTURE = 1;
     
+    public static final String SERVER_URL = "http://104.131.44.82:8000/";
+    public static final String POST_SIGNUP = "signup/";
+    
 }

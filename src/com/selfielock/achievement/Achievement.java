@@ -1,30 +1,17 @@
 package com.selfielock.achievement;
 
-public class Achievement {
+import java.io.Serializable;
+
+public class Achievement implements Serializable {
 	
-	private int img;
+    private static final long serialVersionUID = 1L;
+    
+    private int img;
     private String description;
-        
-    // Get, Set
-    public int getImg()
-    {
-    	return img;
-    }
+    private int id;
+    private boolean unlocked;
     
-    public void setImg(int img)
-    {
-    	this.img = img;
-    }
-    
-    public String getDescription()
-    {
-    	return description;
-    }
-    
-    public void setDescription(String description)
-    {
-    	this.description = description;
-    }
+    private static int nextId = 0;
     
     // Constructors
     public Achievement(){
@@ -34,7 +21,44 @@ public class Achievement {
     public Achievement(int img, String description) {
         super();
         
+        this.id = nextId;
         this.img = img;
         this.description = description;
+        this.unlocked = false;
+        
+        nextId++;
+    }
+
+    // Get, Set
+    public int getImg() {
+    	return img;
+    }
+    
+    public void setImg(int img) {
+    	this.img = img;
+    }
+    
+    public String getDescription() {
+    	return description;
+    }
+    
+    public void setDescription(String description) {
+    	this.description = description;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public boolean isUnlocked() {
+        return unlocked;
+    }
+
+    public void setUnlocked(boolean unlocked) {
+        this.unlocked = unlocked;
     }
 }

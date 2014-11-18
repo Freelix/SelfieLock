@@ -1,8 +1,16 @@
 package com.selfielock.tabs;
 
 
+import java.util.Iterator;
+import java.util.List;
+
 import com.selfielock.achievement.Achievement;
 import com.selfielock.achievement.AchievementAdapter;
+import com.selfielock.database.AchievementCollection;
+import com.selfielock.database.AchievementTransactions;
+import com.selfielock.database.UserEntity;
+import com.selfielock.database.UserTransactions;
+import com.selfielock.utils.ConnectionStatus;
 import com.selfielock.R;
 
 import android.os.Bundle;
@@ -30,17 +38,33 @@ public class Tab3 extends Fragment {
         
         View rootView = inflater.inflate(R.layout.achievement_page, container, false);
         
-        Achievement achievement_data[] = new Achievement[]
-        {
+        // Request to database
+        AchievementTransactions at = new AchievementTransactions(getActivity());
+        UserTransactions ut = new UserTransactions(getActivity());   
+        UserEntity user = ut.getUserByEmail(ConnectionStatus.getUserSignedIn(getActivity()));
+        
+        // Get achievements to show for a user
+        AchievementCollection ac = at.getAllAchievementsByUserEmail(user.getEmail());
+        Achievement[] achievementArray = new Achievement[ac.getListAchievements().size()];
+        
+        int position = 0;
+        for(Iterator<Achievement> i = ac.getListAchievements().iterator(); i.hasNext(); ) {
+            Achievement item = i.next();
+            achievementArray[position] = item;
+            position++;
+        }
+        
+        /*Achievement achievement_data[] = new Achievement[]
+        {       
             new Achievement(R.drawable.medal_silver, "Achievement 1"),
             new Achievement(R.drawable.medal_silver, "Achievement 2"),
             new Achievement(R.drawable.medal_silver, "Achievement 3"),
             new Achievement(R.drawable.medal_silver, "Achievement 4"),
             new Achievement(R.drawable.medal_silver, "Achievement 5")
-        };
+        };*/
         
         AchievementAdapter adapter = new AchievementAdapter(this.getActivity().getApplicationContext(), 
-                R.layout.achievement_listview_item_row, achievement_data);    
+                R.layout.achievement_listview_item_row, achievementArray, user.getEmail());    
         
         achvlistView = (ListView) rootView.findViewById(R.id.listViewAchievement);
          

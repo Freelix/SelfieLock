@@ -14,6 +14,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -21,11 +22,11 @@ import android.util.Log;
 public class PostRequest extends AsyncTask <String, Void, String> {
 
 	private String url;
-	private List<NameValuePair> postData;
+	private String jsonString;
 	
-	public PostRequest(String url,List<NameValuePair> postData) {
+	public PostRequest(String url, String jsonString) {
 		this.url = url;
-		this.postData = postData;
+		this.jsonString = jsonString;
 	}
 	
 	@Override
@@ -36,7 +37,8 @@ public class PostRequest extends AsyncTask <String, Void, String> {
     	HttpPost post = new HttpPost(url);
     	HttpResponse httpResponse = null;
     	try {
-			post.setEntity(new UrlEncodedFormEntity(postData));
+			post.setEntity(new StringEntity(jsonString, "UTF8"));
+			post.setHeader("Content-type", "application/json");
 		} catch (UnsupportedEncodingException uee) {
 			uee.printStackTrace();
 		}
@@ -89,7 +91,7 @@ public class PostRequest extends AsyncTask <String, Void, String> {
 	//TODO: A faire
     protected void onPostExecute(String result) {
         //a la fin de l'execution  
-    	//Log.d("POST Responses", result);
+    	Log.d("POST Responses", result);
     }
     
     private static String convertInputStreamToString(InputStream inputStream) throws IOException{

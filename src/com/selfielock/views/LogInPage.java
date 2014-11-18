@@ -1,5 +1,8 @@
 package com.selfielock.views;
 
+import java.util.Iterator;
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +17,7 @@ import android.widget.Toast;
 import com.selfielock.R;
 import com.selfielock.database.UserEntity;
 import com.selfielock.database.UserTransactions;
+import com.selfielock.serverCommunication.SerializeToJson;
 import com.selfielock.tabs.MainActivity;
 import com.selfielock.utils.ConnectionStatus;
 import com.selfielock.utils.Constants;
@@ -35,6 +39,23 @@ public class LogInPage extends Activity {
 		setContentView(R.layout.login_page);
 		context = LogInPage.this;
 	    InitialiseControls();
+
+	    //testConnectionWithServer()
+	}
+	
+	// Send all user data to server before going to MainPage 
+	private void testConnectionWithServer()
+	{
+	    // Test
+        UserTransactions ut = new UserTransactions(context);
+        List<UserEntity> listUsers = ut.getAllUsers();
+        
+        for(Iterator<UserEntity> i = listUsers.iterator(); i.hasNext(); ) 
+        {
+            UserEntity user = i.next();
+            SerializeToJson stj = new SerializeToJson(user);
+            stj.toJson();
+        }
 	}
     
     private OnClickListener btnProfileListener = new OnClickListener() {
