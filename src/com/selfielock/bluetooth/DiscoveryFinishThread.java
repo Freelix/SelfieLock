@@ -19,6 +19,7 @@ public class DiscoveryFinishThread extends Thread {
         this.actualTime = 0;
         this.handler = new Handler();
         BlueUtility.maxTimeToWait = this.timeToWait;
+        this.isAlive = true;
     }  
     
     // Getter, Setter

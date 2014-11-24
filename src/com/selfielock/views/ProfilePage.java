@@ -48,6 +48,15 @@ public class ProfilePage extends Activity {
 	    
 	    InitializeControls();
 	}
+	
+	@Override
+    public void onBackPressed() {
+	    // Redirect to LoginPage
+        Intent intent = new Intent(context, LogInPage.class);
+        startActivity(intent);
+        
+        super.onBackPressed();
+    }
 	  
 	private void InitializeControls()
 	{  

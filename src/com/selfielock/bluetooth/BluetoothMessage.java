@@ -36,7 +36,7 @@ public class BluetoothMessage {
     {
         //String txtMsg = "12345"; 
         //byte[] backgroundImg = SLUtils.ImageToByte(imageId, resources);
-        
+
         sendMessage(txtMsg);
         sendImage(backgroundImg);
     }

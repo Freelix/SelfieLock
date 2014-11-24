@@ -54,15 +54,6 @@ public class Tab3 extends Fragment {
             position++;
         }
         
-        /*Achievement achievement_data[] = new Achievement[]
-        {       
-            new Achievement(R.drawable.medal_silver, "Achievement 1"),
-            new Achievement(R.drawable.medal_silver, "Achievement 2"),
-            new Achievement(R.drawable.medal_silver, "Achievement 3"),
-            new Achievement(R.drawable.medal_silver, "Achievement 4"),
-            new Achievement(R.drawable.medal_silver, "Achievement 5")
-        };*/
-        
         AchievementAdapter adapter = new AchievementAdapter(this.getActivity().getApplicationContext(), 
                 R.layout.achievement_listview_item_row, achievementArray, user.getEmail());    
         

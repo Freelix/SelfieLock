@@ -1,11 +1,14 @@
 package com.selfielock.utils;
 
+import java.io.Serializable;
 import java.security.SecureRandom;
 import java.util.Random;
 
-public class Password {
+public class Password implements Serializable{
 	
-	private String password;
+    private static final long serialVersionUID = 1L;
+    
+    private String password;
 	private int length;
 	private int strength;
 	

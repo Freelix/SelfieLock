@@ -134,7 +134,10 @@ public class LockPage extends Activity {
 	    	    updateStats(true);
 	    		
 	    		// Go back to MainPage
-	    	    BlueUtility.setEndOfLockPage(true, true);		    	
+	    	    BlueUtility.setEndOfLockPage(true, true);
+	    	    
+	    	    
+	    	    
 		    	LockPage.this.finish();
 	    	}
 	    	else
@@ -153,6 +156,10 @@ public class LockPage extends Activity {
             updateStats(false);
             
             BlueUtility.setEndOfLockPage(true, false);
+            
+            /*Intent newIntent = new Intent(LockPage.this, MainActivity.class);
+            startActivity(newIntent);*/
+            
             LockPage.this.finish();
         }
     };

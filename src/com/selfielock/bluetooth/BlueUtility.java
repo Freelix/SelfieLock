@@ -2,12 +2,14 @@ package com.selfielock.bluetooth;
 
 import java.io.Serializable;
 import java.lang.reflect.Method;
-import com.selfielock.utils.Constants;
-import com.selfielock.utils.SLUtils;
+import java.util.ArrayList;
+import android.app.Activity;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.os.ParcelUuid;
 import android.util.Log;
+import com.selfielock.utils.Constants;
+import com.selfielock.utils.SLUtils;
 
 public class BlueUtility implements Serializable {
     
@@ -19,6 +21,10 @@ public class BlueUtility implements Serializable {
 
     // Link the MainPage with the LockPage via this socket
     public static BluetoothSocket bts;
+    
+    public static ArrayList<BluetoothDevice> mDeviceList;
+    public static Activity act;
+    public static String ackVal = "0";
     
     // Indicates if we quit the lockPage
     private static boolean endOfLockPage = false;
@@ -80,6 +86,10 @@ public class BlueUtility implements Serializable {
     /****** Functions ******/
     /***********************/
     
+    public static BluetoothSocket socketSend;
+    public static boolean acceptConnection = false;
+    public static int connectionFound = -1;
+    
     public static boolean verifyIfPhoneHaveTheApp(BluetoothDevice device)
     {
         ParcelUuid[] uuids = BlueUtility.servicesFromDevice(device);
@@ -92,6 +102,7 @@ public class BlueUtility implements Serializable {
                 if (Constants.uuid.compareTo(id.getUuid()) == 0)  
                 {
                     Log.i("BLUETOOTH", "Device name: " + device.getName());
+                   
                     return true;
                 }
             }

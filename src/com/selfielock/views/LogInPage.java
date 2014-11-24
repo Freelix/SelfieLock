@@ -64,6 +64,8 @@ public class LogInPage extends Activity {
 	    public void onClick(View v) {
 	    	Intent intent = new Intent(context, ProfilePage.class);
 	    	startActivity(intent);
+	    	
+	    	LogInPage.this.finish();
 	    }
     };
   
