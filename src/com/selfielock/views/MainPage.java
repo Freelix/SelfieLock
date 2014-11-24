@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.UUID;
 
 import android.app.Fragment;
 import android.app.ProgressDialog;
@@ -468,30 +469,39 @@ public class MainPage extends Fragment{
                     if (mDeviceList.size() > 0)
                     {
                         boolean sessionValid = true;
-                        //int numberOfTime = 0;
+                        int numberOfTime = 0;
                         int position = 0;
                         BluetoothDevice device = mDeviceList.get(position);
+                        mBluetoothAdapter.cancelDiscovery();
                         
                         try {
                             new ListenForConnection().execute();
                             socketSend = device.createInsecureRfcommSocketToServiceRecord(Constants.uuid);
                             socketSend.connect();
                             
+                            /*boolean temp = device.fetchUuidsWithSdp();
+                            UUID uuid = null;
+                            if( temp ){
+                            uuid = device.getUuids()[0].getUuid();
+                            }
+                            BluetoothSocket tmp = device.createInsecureRfcommSocketToServiceRecord(uuid);
+                            socketSend.connect();*/
+                            
                             BlueAckMessage bam = new BlueAckMessage(socketSend);
                             bam.sendConnectionRequest();
                             
-                            while (BlueUtility.connectionFound == -1)
+                            while (BlueUtility.connectionFound == -1 && numberOfTime <= 50)
                             {
                                 try {
-                                    Thread.sleep(1000);
-                                    //numberOfTime++;
+                                    Thread.sleep(500);
+                                    numberOfTime++;
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
                             }
                             
-                            /*if (numberOfTime > 30)
-                                sessionValid = false;*/
+                            if (numberOfTime > 50)
+                                sessionValid = false;
                         } catch (IOException e) {
                             sessionValid = false;
                             e.printStackTrace();
@@ -503,7 +513,7 @@ public class MainPage extends Fragment{
                             e.printStackTrace();
                         }*/
                         
-                        if (sessionValid)
+                        if (sessionValid && BlueUtility.connectionFound == 1)
                         {
                             thr.interrupt();
                             try {
@@ -513,16 +523,9 @@ public class MainPage extends Fragment{
                                 e.printStackTrace();
                             }
                             
-                            if (BlueUtility.connectionFound == 1)
-                            {
-                                acceptThread.execute();
-                                //threadForDiscovery.interrupt();
-                                mProgressDlg.dismiss();
-                                
-                                InitializePairing();
-                            }
-                            else
-                                mBluetoothAdapter.startDiscovery();
+                            acceptThread.execute();
+                            mProgressDlg.dismiss();
+                            InitializePairing();
                         }
                         else 
                             mBluetoothAdapter.startDiscovery();
@@ -534,7 +537,7 @@ public class MainPage extends Fragment{
                 // Dynamically add devices to the list
                 BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 
-                Method getUuidsMethod = null;
+                /*Method getUuidsMethod = null;
                 try {
                     getUuidsMethod = device.getClass().getMethod("getUuids", null);
                 } catch (NoSuchMethodException e) {
@@ -564,11 +567,11 @@ public class MainPage extends Fragment{
                         Log.i("BLUETOOTH", "Device name: " + device.getName());
                         mDeviceList.add(device);
                     }
-                }
-                
-                /*if (BlueUtility.verifyIfPhoneHaveTheApp(device)){
-                    mDeviceList.add(device);
                 }*/
+                
+                if (BlueUtility.verifyIfPhoneHaveTheApp(device)){
+                    mDeviceList.add(device);
+                }
             }
         }
     };
