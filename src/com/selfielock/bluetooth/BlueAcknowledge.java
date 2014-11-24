@@ -8,13 +8,11 @@ import android.util.Log;
 public class BlueAcknowledge implements Runnable {
     
     private BluetoothSocket socket;
+    private BluetoothSocket socketSend;
     
     public BlueAcknowledge(BluetoothSocket socket, BluetoothSocket socketSend) {
         this.socket = socket;
-    }
-    
-    public BlueAcknowledge(BluetoothSocket socket) {
-        this.socket = socket;
+        this.socketSend = socketSend;
     }
     
     public void run() {
@@ -44,6 +42,9 @@ public class BlueAcknowledge implements Runnable {
                     if (!BlueUtility.acceptConnection) {
                         BlueUtility.acceptConnection = true;
                         BlueUtility.connectionFound = 1;
+                        
+                        BlueAckMessage bam = new BlueAckMessage(socketSend);
+                        bam.sendConnectionRequest();
                     }
                     else 
                         BlueUtility.connectionFound = 0;

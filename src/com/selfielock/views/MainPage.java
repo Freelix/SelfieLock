@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Iterator;
+
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
@@ -31,7 +33,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.selfielock.R;
+import com.selfielock.achievement.Achievement;
 import com.selfielock.achievement.CustomToast;
+import com.selfielock.achievement.CustomToastPosition;
 import com.selfielock.bluetooth.BlueAckMessage;
 import com.selfielock.bluetooth.BlueAcknowledge;
 import com.selfielock.bluetooth.BlueUtility;
@@ -306,8 +310,25 @@ public class MainPage extends Fragment{
             
             toast.ShowToast();
             
+            if (BlueUtility.getAchievements() != null) { 
+                for(Iterator<Achievement> i = BlueUtility.getAchievements().iterator(); i.hasNext(); ) {
+                    Achievement item = i.next();
+                    
+                    CustomToast toastAch = new CustomToast(getActivity(), "Achievement !", item.getDescription(), R.drawable.success, true);
+                    toastAch.setPosition(CustomToastPosition.PositionTop.getPosition());
+                    toastAch.ShowToast();
+                    
+                    try {
+                        Thread.sleep(Toast.LENGTH_LONG);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }        
+            }
+            
             // Reinitialize the endOfLockPage
             BlueUtility.setEndOfLockPage(false, false);
+            BlueUtility.setAchievementUnlocked(null);
         }
         
         super.onResume();
@@ -447,7 +468,7 @@ public class MainPage extends Fragment{
                     if (mDeviceList.size() > 0)
                     {
                         boolean sessionValid = true;
-                        int numberOfTime = 0;
+                        //int numberOfTime = 0;
                         int position = 0;
                         BluetoothDevice device = mDeviceList.get(position);
                         
@@ -459,18 +480,18 @@ public class MainPage extends Fragment{
                             BlueAckMessage bam = new BlueAckMessage(socketSend);
                             bam.sendConnectionRequest();
                             
-                            while (BlueUtility.connectionFound == -1 || numberOfTime > 30)
+                            while (BlueUtility.connectionFound == -1)
                             {
                                 try {
                                     Thread.sleep(1000);
-                                    numberOfTime++;
+                                    //numberOfTime++;
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
                             }
                             
-                            if (numberOfTime > 30)
-                                sessionValid = false;
+                            /*if (numberOfTime > 30)
+                                sessionValid = false;*/
                         } catch (IOException e) {
                             sessionValid = false;
                             e.printStackTrace();
@@ -513,9 +534,9 @@ public class MainPage extends Fragment{
                 // Dynamically add devices to the list
                 BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
 
-                /*Method getUuidsMethod = null;
+                Method getUuidsMethod = null;
                 try {
-                    getUuidsMethod = BluetoothAdapter.class.getDeclaredMethod("getUuids", null);
+                    getUuidsMethod = device.getClass().getMethod("getUuids", null);
                 } catch (NoSuchMethodException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -523,7 +544,7 @@ public class MainPage extends Fragment{
                 
                 ParcelUuid[] uuids = null;
                 try {
-                    uuids = (ParcelUuid[]) getUuidsMethod.invoke(mBluetoothAdapter, null);
+                    uuids = (ParcelUuid[]) getUuidsMethod.invoke(device, null);
                 } catch (IllegalAccessException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -543,11 +564,11 @@ public class MainPage extends Fragment{
                         Log.i("BLUETOOTH", "Device name: " + device.getName());
                         mDeviceList.add(device);
                     }
-                }*/
-                
-                if (BlueUtility.verifyIfPhoneHaveTheApp(device)){
-                    mDeviceList.add(device);
                 }
+                
+                /*if (BlueUtility.verifyIfPhoneHaveTheApp(device)){
+                    mDeviceList.add(device);
+                }*/
             }
         }
     };

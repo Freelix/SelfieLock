@@ -40,11 +40,20 @@ public class Tab3 extends Fragment {
         
         // Request to database
         AchievementTransactions at = new AchievementTransactions(getActivity());
+        
         UserTransactions ut = new UserTransactions(getActivity());   
         UserEntity user = ut.getUserByEmail(ConnectionStatus.getUserSignedIn(getActivity()));
         
         // Get achievements to show for a user
         AchievementCollection ac = at.getAllAchievementsByUserEmail(user.getEmail());
+        
+        if (ac.getListAchievements().size() == 0)
+        {
+            // Create all achievements here
+            ac = new AchievementCollection(user.getEmail());
+            at.AddAchievementToUser(user, ac);
+        }
+        
         Achievement[] achievementArray = new Achievement[ac.getListAchievements().size()];
         
         int position = 0;

@@ -6,6 +6,7 @@ public class Constants {
     
     // Used for bluetooth sockets connection
     public final static UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+    //public final static UUID uuid = UUID.fromString("cc444516-d58e-4afd-a94c-527de71e43bf");
     
     // Gender
     public static final String MAN = "Man";
@@ -18,7 +19,11 @@ public class Constants {
     // Used to browse images
     public static final int SELECT_PICTURE = 1;
     
+    // Connexion with server
     public static final String SERVER_URL = "http://104.131.44.82:8000/";
     public static final String POST_SIGNUP = "signup/";
+    
+    // Achievements name
+    public static final String ACH_WON5GAMES = "Won 5 games";
     
 }

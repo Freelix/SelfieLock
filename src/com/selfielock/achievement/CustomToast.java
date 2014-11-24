@@ -20,6 +20,7 @@ public class CustomToast {
 	private int imageRessId = 0;
 	private Context context;
 	private int backGroundColor;
+	private String position;
 	
 	private TextView textTitle = null;
 	private TextView textDescription = null;
@@ -31,6 +32,7 @@ public class CustomToast {
 		this.title = title;
 		this.description = description;
 		this.backGroundColor = 0xFF00FF00;
+		this.position = CustomToastPosition.PositionBottom.getPosition();
 	}
 	
 	public CustomToast(Context context, String title, String description, int image, boolean success)
@@ -39,11 +41,17 @@ public class CustomToast {
 		this.title = title;
 		this.description = description;
 		this.imageRessId = image; // Example : R.drawable.medal_silver
+		this.position = CustomToastPosition.PositionBottom.getPosition();
 		
 		if (success)
 		    this.backGroundColor = 0xFF00FF00;
 		else
 		    this.backGroundColor = 0xFFFF0000;
+	}
+	
+	public void setPosition(String position)
+	{
+	    this.position = position;
 	}
 	
 	public void ShowToast()
@@ -75,13 +83,17 @@ public class CustomToast {
         toast.setView(layout);
         
         toast.setDuration(Toast.LENGTH_LONG);
-           
-        toast.setGravity(Gravity.BOTTOM, 0, 0);
-        toast.show();
+        
+        setGravity(toast).show();
 	}
 	
-	public void test()
+	private Toast setGravity(Toast toast)
 	{
-		
+	    if (position == CustomToastPosition.PositionBottom.getPosition())
+	        toast.setGravity(Gravity.BOTTOM, 0, 0);
+	    else if (position == CustomToastPosition.PositionTop.getPosition())
+            toast.setGravity(Gravity.TOP, 0, 0);
+	    
+	    return toast;
 	}
 }

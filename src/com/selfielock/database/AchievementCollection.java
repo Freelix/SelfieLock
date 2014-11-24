@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.selfielock.R;
 import com.selfielock.achievement.Achievement;
+import com.selfielock.utils.Constants;
 import com.selfielock.utils.SLUtils;
 
 public class AchievementCollection implements Serializable {
@@ -60,12 +61,8 @@ public class AchievementCollection implements Serializable {
     {
         List<Achievement> achievements = new ArrayList<Achievement>();
         
-        Achievement a = new Achievement(R.drawable.medal_silver, "Ici c'est coke");
+        Achievement a = new Achievement(R.drawable.medal_silver, Constants.ACH_WON5GAMES);
         achievements.add(a);
-        Achievement b = new Achievement(R.drawable.medal_silver, "Ici c'est un autre truc");
-        achievements.add(b);
-        Achievement c = new Achievement(R.drawable.medal_silver, "Bravo t'as perdu !");
-        achievements.add(c);
         
         return achievements;
     }

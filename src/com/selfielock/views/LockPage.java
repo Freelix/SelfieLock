@@ -5,6 +5,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.UUID;
 import android.app.Activity;
 import android.app.WallpaperManager;
@@ -33,9 +35,13 @@ import android.widget.Toast;
 import com.selfielock.R;
 import com.selfielock.tabs.MainActivity;
 import com.selfielock.utils.ConnectionStatus;
+import com.selfielock.utils.Constants;
 import com.selfielock.utils.Password;
 import com.selfielock.utils.Password.PasswordStrength;
+import com.selfielock.achievement.Achievement;
 import com.selfielock.bluetooth.*;
+import com.selfielock.database.AchievementCollection;
+import com.selfielock.database.AchievementTransactions;
 import com.selfielock.database.StatsEntity;
 import com.selfielock.database.StatsTransactions;
 import com.selfielock.database.UserEntity;
@@ -91,7 +97,7 @@ public class LockPage extends Activity {
         super.onDestroy();
     }
 	
-	private void updateStats(boolean success)
+	private StatsEntity updateStats(boolean success)
 	{
 	    UserTransactions ut = new UserTransactions(getApplicationContext());
         UserEntity user = ut.getUserByEmail(ConnectionStatus.getUserSignedIn(LockPage.this));
@@ -107,7 +113,39 @@ public class LockPage extends Activity {
         stats.setTimesPlayed(stats.getTimesPlayed() + 1);
         
         st.updateUserStats(stats);
+        
+        return stats;
 	}
+	
+	private void updateAchievements(StatsEntity stats)
+    {
+	    List<Achievement> listAchievements = new ArrayList<Achievement>();
+	    
+        UserTransactions ut = new UserTransactions(getApplicationContext());
+        UserEntity user = ut.getUserByEmail(ConnectionStatus.getUserSignedIn(LockPage.this));
+        
+        AchievementTransactions at = new AchievementTransactions(getApplicationContext());
+        AchievementCollection acList = at.getAllAchievementsByUserEmail(user.getEmail());
+        
+        int position = 0;
+        for(Iterator<Achievement> i = acList.getListAchievements().iterator(); i.hasNext(); ) {
+            Achievement item = i.next();
+            
+            if (item.getDescription().equals(Constants.ACH_WON5GAMES) && stats.getNumberOfWin() >= 5
+                    && !item.isUnlocked()) {
+                acList.unlockedAchievement(position, true);
+                listAchievements.add(item);
+            }
+            
+            position++;
+        }
+        
+        if (listAchievements.size() > 0)
+        {
+            at.updateUserAchievement(acList);
+            BlueUtility.setAchievementUnlocked(listAchievements);
+        }
+    }
 	
     private OnClickListener btnSendCodeListener = new OnClickListener() {
 		  
@@ -130,13 +168,12 @@ public class LockPage extends Activity {
 					e.printStackTrace();
 				}*/
 	    	    
-	    	    // Update stats for a user
-	    	    updateStats(true);
-	    		
+	    	    // Update stats/achievements for a user
+	    	    StatsEntity stats = updateStats(true);
+	    	    updateAchievements(stats);
+	    	    
 	    		// Go back to MainPage
 	    	    BlueUtility.setEndOfLockPage(true, true);
-	    	    
-	    	    
 	    	    
 		    	LockPage.this.finish();
 	    	}

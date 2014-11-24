@@ -107,4 +107,10 @@ public class AchievementTransactions extends DatabaseInstance {
         
         return createSuccessful;
     }
+    
+    public void deleteAllRows()
+    {
+        SQLiteDatabase db = slDbHelper.getWritableDatabase();
+        db.delete(AchievementScheme.TABLE_NAME, null, null);
+    }
 }

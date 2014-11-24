@@ -3,11 +3,15 @@ package com.selfielock.bluetooth;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.os.ParcelUuid;
 import android.util.Log;
+
+import com.selfielock.achievement.Achievement;
 import com.selfielock.utils.Constants;
 import com.selfielock.utils.SLUtils;
 
@@ -31,6 +35,9 @@ public class BlueUtility implements Serializable {
     
     // Indicates if the user win
     private static boolean success = false;
+    
+    // Indicates if the user unlocked an achievement
+    private static List<Achievement> achievements = null;
     
     // Show a message when user go back to MainPage
     private static String[] message = new String[2];
@@ -60,6 +67,16 @@ public class BlueUtility implements Serializable {
     public static boolean isSuccess()
     {
         return success;
+    }
+    
+    public static void setAchievementUnlocked(List<Achievement> listAchievements)
+    {
+        achievements = listAchievements;
+    }
+    
+    public static List<Achievement> getAchievements()
+    {
+        return achievements;
     }
     
     public static String[] getMessage()
