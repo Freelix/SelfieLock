@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.selfielock.R;
 import com.selfielock.database.UserEntity;
 import com.selfielock.database.UserTransactions;
+import com.selfielock.serverCommunication.RequestConstants;
 import com.selfielock.serverCommunication.SerializeToJson;
 import com.selfielock.tabs.MainActivity;
 import com.selfielock.utils.ConnectionStatus;
@@ -53,7 +54,7 @@ public class LogInPage extends Activity {
         for(Iterator<UserEntity> i = listUsers.iterator(); i.hasNext(); ) 
         {
             UserEntity user = i.next();
-            SerializeToJson stj = new SerializeToJson(user);
+            SerializeToJson stj = new SerializeToJson(user, RequestConstants.CREATE_USER);
             stj.toJson();
         }
 	}

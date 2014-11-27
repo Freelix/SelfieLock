@@ -7,6 +7,7 @@ public class StatsEntity {
     private int timesPlayed;
     private int achievementsUnlocked;
     private String userEmail;
+    private String id;
     
     public StatsEntity(int numberOfWin, int numberOfFail, int timesPlayed, int achievementsUnlocked, String userEmail)
     {
@@ -64,5 +65,13 @@ public class StatsEntity {
 
     public void setUserEmail(String userEmail) {
         this.userEmail = userEmail;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

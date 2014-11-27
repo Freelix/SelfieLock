@@ -77,6 +77,5 @@ public class UserEntity {
 
     public void setGender(String gender) {
         this.gender = gender;
-    }
-    
+    }   
 }

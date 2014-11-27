@@ -23,10 +23,17 @@ public class PostRequest extends AsyncTask <String, Void, String> {
 
 	private String url;
 	private String jsonString;
+	private String response;
 	
 	public PostRequest(String url, String jsonString) {
 		this.url = url;
 		this.jsonString = jsonString;
+		this.response = "";
+	}
+	
+	public String getResponse()
+	{
+	    return response;
 	}
 	
 	@Override
@@ -59,7 +66,7 @@ public class PostRequest extends AsyncTask <String, Void, String> {
     	return answer;
 	}
 	
-    public String POST(String url, List<NameValuePair> param)
+    /*public String POST(String url, List<NameValuePair> param)
     {
     	InputStream inputStream = null;
         String answer = "";
@@ -86,12 +93,14 @@ public class PostRequest extends AsyncTask <String, Void, String> {
 			Log.d("POST", ioe.getLocalizedMessage());
 		}
     	return answer;
-    }
+    }*/
     
 	//TODO: A faire
+    @Override
     protected void onPostExecute(String result) {
         //a la fin de l'execution  
     	Log.d("POST Responses", result);
+    	response = result;
     }
     
     private static String convertInputStreamToString(InputStream inputStream) throws IOException{

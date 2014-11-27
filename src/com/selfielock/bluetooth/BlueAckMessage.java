@@ -14,20 +14,17 @@ public class BlueAckMessage {
         this.socket = socket;
     }
     
-    public void sendConnectionRequest()
+    public void sendConnectionRequest(int message)
     {
         DataOutputStream outStream;
         
         try 
         {
-            String msg = "1";
             outStream = new DataOutputStream(socket.getOutputStream());
             
-            byte[] byteString = new String(msg + " ").getBytes();
-            
-            outStream.writeInt(byteString.length + 1);
+            outStream.writeInt(2);
             outStream.writeByte(Integer.parseInt(MessageType.ConnectionRequest.getType()));
-            outStream.write(byteString);
+            outStream.writeByte(message); // message
             outStream.flush();
         } 
         catch (IOException e) 

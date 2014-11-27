@@ -3,6 +3,8 @@ package com.selfielock.views;
 import com.selfielock.R;
 import com.selfielock.database.UserEntity;
 import com.selfielock.database.UserTransactions;
+import com.selfielock.serverCommunication.RequestConstants;
+import com.selfielock.serverCommunication.SerializeToJson;
 import com.selfielock.tabs.MainActivity;
 import com.selfielock.utils.ConnectionStatus;
 import com.selfielock.utils.Constants;
@@ -109,8 +111,13 @@ public class ProfilePage extends Activity {
                         // We create the transaction context
                         UserTransactions ut = new UserTransactions(context);
                         
+                        // Check if exists on the server
+                        SerializeToJson stj = new SerializeToJson(textEmail.getText().toString(), RequestConstants.EXIST_USER);
+                        stj.toJson(); 
+                        String response = stj.getJsonStr();
+                        
                         // We check if this email already exists
-                        if (ut.getUserByEmail(textEmail.getText().toString()) == null)
+                        if (response.equals("False"))
                         {
                             UserEntity newUser = new UserEntity(textFirstName.getText().toString(),
                                     textLastName.getText().toString(),
@@ -119,9 +126,12 @@ public class ProfilePage extends Activity {
                                     byteImage,
                                     encryptedPassword);
                             
-                            ut.AddUser(newUser);
+                            // Add it to the server
+                            SerializeToJson stjson = new SerializeToJson(newUser, RequestConstants.CREATE_USER);
+                            stjson.toJson();
                             
-                            // TODO: Add an email confirmation with a custom message
+                            // Add it to the local database
+                            ut.AddUser(newUser);
                             
                             // Signing in
                             ConnectionStatus.SignIn(ProfilePage.this, textEmail.getText().toString());

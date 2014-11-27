@@ -6,7 +6,8 @@ public class Constants {
     
     // Used for bluetooth sockets connection
     public final static UUID uuid = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
-    //public final static UUID uuid = UUID.fromString("cc444516-d58e-4afd-a94c-527de71e43bf");
+    //public final static UUID uuid2 = UUID.fromString("fa87c0d0-afac-11de-8a39-0800200c9a66");
+    //public final static UUID uuid = UUID.fromString("a769fcfc-7f7f-4931-8779-8f596f1c4113");
     
     // Gender
     public static final String MAN = "Man";

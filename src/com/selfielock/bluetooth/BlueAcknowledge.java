@@ -9,10 +9,12 @@ public class BlueAcknowledge implements Runnable {
     
     private BluetoothSocket socket;
     private BluetoothSocket socketSend;
+    private boolean valid;
     
     public BlueAcknowledge(BluetoothSocket socket, BluetoothSocket socketSend) {
         this.socket = socket;
         this.socketSend = socketSend;
+        this.valid = false;
     }
     
     public void run() {
@@ -21,8 +23,7 @@ public class BlueAcknowledge implements Runnable {
             // Server            
             DataInputStream instream = new DataInputStream(socket.getInputStream());
             String messageType;
-            
-            byte[] byteMessage = null;
+            String message;
             
             while (true) 
             {    
@@ -30,12 +31,7 @@ public class BlueAcknowledge implements Runnable {
                 
                 int length = instream.readInt();
                 messageType = Byte.toString(instream.readByte());
-
-                if (length > 0)
-                {
-                    byteMessage = new byte[length];
-                    instream.readFully(byteMessage, 0, byteMessage.length - 1);
-                }
+                message = Byte.toString(instream.readByte());
                 
                 if (messageType.equals(MessageType.ConnectionRequest.getType()))
                 {   
@@ -44,13 +40,29 @@ public class BlueAcknowledge implements Runnable {
                         BlueUtility.connectionFound = 1;
                         
                         BlueAckMessage bam = new BlueAckMessage(socketSend);
-                        bam.sendConnectionRequest();
+                        bam.sendConnectionRequest(1);
                     }
                     else 
                         BlueUtility.connectionFound = 0;
                 }
                 
-                socket.getInputStream();
+                /*if (messageType.equals(MessageType.ConnectionRequest.getType()))
+                {   
+                    
+                    if (message.equals("1") && !BlueUtility.acceptConnection)
+                    {
+                        BlueAckMessage bam = new BlueAckMessage(socketSend);
+                        bam.sendConnectionRequest(2);
+                    }
+                    else if (message.equals("2") && !BlueUtility.acceptConnection) {
+                        BlueUtility.acceptConnection = true;
+                        BlueUtility.connectionFound = 1;
+                    }
+                    else 
+                        BlueUtility.connectionFound = 0;
+                }*/
+                
+                //socket.getInputStream();
             }
         } 
         catch (IOException e)

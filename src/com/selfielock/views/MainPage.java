@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 import java.util.UUID;
 
 import android.app.Fragment;
@@ -18,6 +20,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.ParcelUuid;
@@ -42,8 +45,14 @@ import com.selfielock.bluetooth.BlueAcknowledge;
 import com.selfielock.bluetooth.BlueUtility;
 import com.selfielock.bluetooth.BluetoothMessage;
 import com.selfielock.bluetooth.DiscoveryFinishThread;
+import com.selfielock.database.StatsEntity;
+import com.selfielock.database.StatsTransactions;
 import com.selfielock.database.UserEntity;
 import com.selfielock.database.UserTransactions;
+import com.selfielock.location.GeolocationManager;
+import com.selfielock.location.LocationObject;
+import com.selfielock.serverCommunication.RequestConstants;
+import com.selfielock.serverCommunication.SerializeToJson;
 import com.selfielock.utils.ConnectionStatus;
 import com.selfielock.utils.Constants;
 import com.selfielock.utils.CustomBluetoothManager;
@@ -110,6 +119,12 @@ public class MainPage extends Fragment{
 		rootView = inflater.inflate(R.layout.main_page, container, false);
 		InitializeBluetooth();
 	    ConfigureLayout();
+	    
+	    // Create user      
+	    /*UserTransactions ut = new UserTransactions(getActivity());
+	    UserEntity user = ut.getUserByEmail(ConnectionStatus.getUserSignedIn(getActivity()));
+	    SerializeToJson stj = new SerializeToJson(user, RequestConstants.CREATE_USER);
+	    stj.toJson();*/
 
 	    return rootView;
 	}
@@ -442,6 +457,16 @@ public class MainPage extends Fragment{
         Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();               
     }
     
+    private boolean isValid()
+    {
+        for (BluetoothDevice device: mDeviceList) {
+            if (BlueUtility.verifyIfPhoneHaveTheApp(device))
+                return true;
+        }
+        
+        return false;
+    }
+    
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() 
     {
         public void onReceive(Context context, Intent intent) 
@@ -462,7 +487,7 @@ public class MainPage extends Fragment{
                 mProgressDlg.show();
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
                 BlueUtility.connectionFound = -1;
-                BlueUtility.acceptConnection = false;
+                BlueUtility.acceptConnection = false; 
                 
                 if (threadForDiscovery.getIsAlive())
                 {
@@ -488,7 +513,7 @@ public class MainPage extends Fragment{
                             socketSend.connect();*/
                             
                             BlueAckMessage bam = new BlueAckMessage(socketSend);
-                            bam.sendConnectionRequest();
+                            bam.sendConnectionRequest(1);
                             
                             while (BlueUtility.connectionFound == -1 && numberOfTime <= 50)
                             {
@@ -528,6 +553,7 @@ public class MainPage extends Fragment{
                             InitializePairing();
                         }
                         else 
+                            
                             mBluetoothAdapter.startDiscovery();
                     }
                     else
@@ -637,6 +663,7 @@ public class MainPage extends Fragment{
                             newIntent.putExtra("Password", password.GetPassword());
                             
                             BlueUtility.bts = socketListen;
+                            BlueUtility.btss = btserver;
                             startActivity(newIntent);
                         }
                     }

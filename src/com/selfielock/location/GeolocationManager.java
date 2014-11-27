@@ -1,4 +1,4 @@
-package com.selfielock.utils;
+package com.selfielock.location;
 
 import android.content.Context;
 import android.location.Location;

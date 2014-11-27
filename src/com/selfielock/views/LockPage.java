@@ -12,6 +12,7 @@ import android.app.Activity;
 import android.app.WallpaperManager;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -68,6 +69,7 @@ public class LockPage extends Activity {
     /*******************************/
     
     private BluetoothSocket socket;
+    private BluetoothServerSocket btss;
     private Handler handler = new Handler();;
 	
     /*****************/
@@ -85,6 +87,13 @@ public class LockPage extends Activity {
 		InitialiseControls();
 		InitializeListener();
 		SetupWallpaperAndPassword(password);
+		
+		btss = BlueUtility.btss;
+		try {
+            btss.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 	}
 	
 	@Override

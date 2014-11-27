@@ -4,11 +4,15 @@ import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
+import android.content.Intent;
 import android.os.ParcelUuid;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.selfielock.achievement.Achievement;
@@ -25,6 +29,7 @@ public class BlueUtility implements Serializable {
 
     // Link the MainPage with the LockPage via this socket
     public static BluetoothSocket bts;
+    public static BluetoothServerSocket btss;
     
     public static ArrayList<BluetoothDevice> mDeviceList;
     public static Activity act;
@@ -111,12 +116,23 @@ public class BlueUtility implements Serializable {
     {
         ParcelUuid[] uuids = BlueUtility.servicesFromDevice(device);
 
+       /* if (uuids == null) {
+            if (device.fetchUuidsWithSdp()) {
+                Parcelable[] uuidsPar = intent.getParcelableArrayExtra(BluetoothDevice.EXTRA_UUID);
+                for (Parcelable ep : uuidsPar) {
+                    Log.d("UUID records : ", ep.toString());
+                }
+            }
+        }*/
+        //0000110a-0000-1000-8000-00805f9b34fb
+        //UUID test = UUID.fromString("00001200-0000-1000-8000-00805f9b34fb");
+
         if (uuids != null)
         {
             for (ParcelUuid id: uuids) {
                 Log.d("BLUETOOTH", "UUID: " + id.getUuid().toString());
                 
-                if (Constants.uuid.compareTo(id.getUuid()) == 0)  
+                if (Constants.uuid.compareTo(id.getUuid()) == 0 && !device.getName().startsWith("Ordinateur de "))  
                 {
                     Log.i("BLUETOOTH", "Device name: " + device.getName());
                    

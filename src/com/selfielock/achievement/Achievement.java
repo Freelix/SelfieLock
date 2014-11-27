@@ -2,6 +2,8 @@ package com.selfielock.achievement;
 
 import java.io.Serializable;
 
+import com.selfielock.R;
+
 public class Achievement implements Serializable {
 	
     private static final long serialVersionUID = 1L;
@@ -16,6 +18,13 @@ public class Achievement implements Serializable {
     // Constructors
     public Achievement(){
         super();
+    }
+    
+    public Achievement(String description, boolean unlocked)
+    {
+        this.description = description;
+        this.unlocked = unlocked;
+        this.img = R.drawable.medal_silver;
     }
     
     public Achievement(int img, String description) {

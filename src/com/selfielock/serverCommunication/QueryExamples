@@ -1,0 +1,62 @@
+    // Create user      
+    /*UserTransactions ut = new UserTransactions(getActivity());
+    UserEntity user = ut.getUserByEmail(ConnectionStatus.getUserSignedIn(getActivity()));
+    SerializeToJson stj = new SerializeToJson(user, RequestConstants.CREATE_USER);
+    stj.toJson();*/
+    
+    // Create user
+    /*String strImage = "img";
+    byte[] image = strImage.getBytes();
+    UserEntity user = new UserEntity("Bob", "Blanchard", "Man", "yey@h.com", image, "zxcv");
+    SerializeToJson stj = new SerializeToJson(user, RequestConstants.CREATE_USER);
+    stj.toJson();*/
+    
+    // Update user
+    /*UserTransactions ut = new UserTransactions(getActivity());
+    UserEntity user = ut.getUserByEmail(ConnectionStatus.getUserSignedIn(getActivity()));
+    user.setFirstName("Bob");
+    SerializeToJson stj = new SerializeToJson(user, RequestConstants.UPDATE_USER);
+    stj.toJson();*/
+    
+    // Delete user
+    /*UserTransactions ut = new UserTransactions(getActivity());
+    UserEntity user = ut.getUserByEmail(ConnectionStatus.getUserSignedIn(getActivity()));
+    SerializeToJson stj = new SerializeToJson(user, RequestConstants.DELETE_USER);
+    stj.toJson();*/
+    
+    // Select user
+    /*String email = "freelix.bar@h.com"; 
+    SerializeToJson stj = new SerializeToJson(email, RequestConstants.SELECT_USER);
+    stj.toJson();
+    UserEntity user2 = (UserEntity) stj.toObject();*/
+
+    // Update stats
+    /*UserTransactions ut = new UserTransactions(getActivity());
+    UserEntity user = ut.getUserByEmail(ConnectionStatus.getUserSignedIn(getActivity()));
+    StatsTransactions st = new StatsTransactions(getActivity());
+    StatsEntity s = st.getStatsByUser(user);
+    s.setNumberOfWin(25);
+    s.setNumberOfFail(15);
+    s.setTimesPlayed(40);
+    s.setAchievementsUnlocked(1);
+    SerializeToJson stj = new SerializeToJson(s, RequestConstants.UPDATE_STATS);
+    stj.toJson();*/
+    
+    // Select stats
+    /*String email = "freelix.bar@h.com"; 
+    SerializeToJson stj = new SerializeToJson(email, RequestConstants.SELECT_STATS);
+    stj.toJson(); 
+    StatsEntity stats = (StatsEntity) stj.toObject();*/
+    
+    // Select achievements
+    /*String email = "yolo.powa@h.com"; 
+    SerializeToJson stj = new SerializeToJson(email, RequestConstants.SELECT_ACHIEVEMENTS);
+    stj.toJson();
+    List<Achievement> list = (List<Achievement>) stj.toObject();*/
+    
+    // Update location
+    /*GeolocationManager geo = new GeolocationManager(getActivity());
+    Location loc = geo.getCurrentLocation();
+    LocationObject location = new LocationObject(loc.getLatitude(), loc.getLongitude(), "yey@h.com");
+    SerializeToJson stj = new SerializeToJson(location, RequestConstants.UPDATE_LOCATION);
+    stj.toJson();*/
