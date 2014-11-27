@@ -26,14 +26,14 @@ public class AchievementAdapter extends ArrayAdapter<Achievement>{
     private AchievementTransactions at;
     private AchievementCollection ac;
     
-    public AchievementAdapter(Context context, int layoutResourceId, Achievement[] data, String userEmail) {
+    public AchievementAdapter(Context context, int layoutResourceId, Achievement[] data, AchievementCollection ac) {
         super(context, layoutResourceId, data);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
         this.data = data;
         
         this.at = new AchievementTransactions(this.context);
-        this.ac = at.getAllAchievementsByUserEmail(userEmail);
+        this.ac = ac;
     }
 
     @Override
@@ -57,6 +57,8 @@ public class AchievementAdapter extends ArrayAdapter<Achievement>{
         {
             holder = (AchievementHolder)row.getTag();
         }
+        
+        int test = ac.getListAchievements().size();
         
         // Put green on unlocked achievements        
         if (ac.getListAchievements().get(position).isUnlocked())

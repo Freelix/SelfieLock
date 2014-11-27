@@ -23,10 +23,16 @@ public class AchievementCollection implements Serializable {
         this.userEmail = userEmail; 
     }
     
+    public AchievementCollection(String userEmail, List<Achievement> list)
+    {
+        this.listAchievements = list;
+        this.userEmail = userEmail; 
+    }
+    
     public AchievementCollection()
     {
-        this.listAchievements = new ArrayList<Achievement>();
         this.userEmail = "";
+        this.listAchievements = new ArrayList<Achievement>();
     }
     
     public List<Achievement> getListAchievements() {

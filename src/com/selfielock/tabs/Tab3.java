@@ -10,6 +10,8 @@ import com.selfielock.database.AchievementCollection;
 import com.selfielock.database.AchievementTransactions;
 import com.selfielock.database.UserEntity;
 import com.selfielock.database.UserTransactions;
+import com.selfielock.serverCommunication.RequestConstants;
+import com.selfielock.serverCommunication.SerializeToJson;
 import com.selfielock.utils.ConnectionStatus;
 import com.selfielock.R;
 
@@ -47,10 +49,15 @@ public class Tab3 extends Fragment {
         // Get achievements to show for a user
         AchievementCollection ac = at.getAllAchievementsByUserEmail(user.getEmail());
         
-        if (ac.getListAchievements().size() == 0)
-        {
+        if (ac.getListAchievements() == null)
+        {        
+            // Select achievements
+            SerializeToJson stj = new SerializeToJson(user.getEmail(), RequestConstants.SELECT_ACHIEVEMENTS);
+            stj.toJson();
+            List<Achievement> list = (List<Achievement>) stj.toObject();
+            
             // Create all achievements here
-            ac = new AchievementCollection(user.getEmail());
+            ac = new AchievementCollection(user.getEmail(), list);
             at.AddAchievementToUser(user, ac);
         }
         
@@ -64,7 +71,7 @@ public class Tab3 extends Fragment {
         }
         
         AchievementAdapter adapter = new AchievementAdapter(this.getActivity().getApplicationContext(), 
-                R.layout.achievement_listview_item_row, achievementArray, user.getEmail());    
+                R.layout.achievement_listview_item_row, achievementArray, ac);    
         
         achvlistView = (ListView) rootView.findViewById(R.id.listViewAchievement);
          

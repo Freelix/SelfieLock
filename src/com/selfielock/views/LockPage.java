@@ -179,7 +179,7 @@ public class LockPage extends Activity {
 	    	    
 	    	    // Update stats/achievements for a user
 	    	    StatsEntity stats = updateStats(true);
-	    	    updateAchievements(stats);
+	    	    //updateAchievements(stats);
 	    	    
 	    		// Go back to MainPage
 	    	    BlueUtility.setEndOfLockPage(true, true);

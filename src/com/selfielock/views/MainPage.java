@@ -319,8 +319,18 @@ public class MainPage extends Fragment{
             String[] message = BlueUtility.getMessage();
             CustomToast toast;
             
-            if (BlueUtility.isSuccess())
+            if (BlueUtility.isSuccess()) {
                 toast = new CustomToast(getActivity(), message[0], message[1], R.drawable.success, true);
+                
+                // Update location
+                String email = ConnectionStatus.getUserSignedIn(getActivity());
+                
+                GeolocationManager geo = new GeolocationManager(getActivity());
+                Location loc = geo.getCurrentLocation();
+                LocationObject location = new LocationObject(loc.getLatitude(), loc.getLongitude(), email);
+                SerializeToJson stj = new SerializeToJson(location, RequestConstants.UPDATE_LOCATION);
+                stj.toJson();
+            }
             else
                 toast = new CustomToast(getActivity(), message[0], message[1], R.drawable.failed, false);
             
@@ -597,6 +607,7 @@ public class MainPage extends Fragment{
                 
                 if (BlueUtility.verifyIfPhoneHaveTheApp(device)){
                     mDeviceList.add(device);
+                    mBluetoothAdapter.cancelDiscovery();
                 }
             }
         }
