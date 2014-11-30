@@ -6,9 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-
 import org.apache.commons.validator.routines.EmailValidator;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;

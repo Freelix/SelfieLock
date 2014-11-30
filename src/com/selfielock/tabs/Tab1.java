@@ -5,10 +5,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.selfielock.views.LogInPage;
-import com.selfielock.views.MainPage;
 import com.selfielock.R;
+import com.selfielock.views.MainPage;
  
 public class Tab1 extends Fragment {
 	

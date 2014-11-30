@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.selfielock.R;
 import com.selfielock.achievement.Achievement;
 import com.selfielock.utils.Constants;
@@ -48,7 +47,6 @@ public class AchievementCollection implements Serializable {
         this.listAchievements.add(achievement);
     }
 
-    @SuppressWarnings("unchecked")
     public void addFromString(String strAc, String email) 
     {
         try {

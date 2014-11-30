@@ -1,34 +1,25 @@
-/**
- * 
- */
 package com.selfielock.utils;
 
-import com.selfielock.R;
-
-import android.bluetooth.*;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.widget.Toast;
 
-/**
- * @author user
- *
- */
 public class CustomBluetoothManager {
 	
 	private BluetoothAdapter bluetooth;
+	private String status;
 	
 	public CustomBluetoothManager()
 	{
 		bluetooth = BluetoothAdapter.getDefaultAdapter();
+		
 		if(bluetooth != null)
 		{
-			String status = "";
-		    // Continue with bluetooth setup.
 			if(bluetooth.isEnabled())
 			{
 				String mydeviceaddress = bluetooth.getAddress();
 			    String mydevicename = bluetooth.getName();
-			    status = mydevicename + " : " + mydeviceaddress;
+			    setStatus(mydevicename + " : " + mydeviceaddress);
 			}
 		}
 		else
@@ -37,6 +28,14 @@ public class CustomBluetoothManager {
 		}
 	}
 	
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public static boolean IsBluetoothActivated(Context context, String blueText)
     {    	
     	BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();

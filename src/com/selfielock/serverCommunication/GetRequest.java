@@ -4,13 +4,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -22,7 +20,6 @@ public class GetRequest extends AsyncTask <String, Void, String> {
 	}
 	@Override
 	protected String doInBackground(String... params) {
-		InputStream inputStream = null;
         String answer = "";
         HttpClient httpClient = new DefaultHttpClient();
         HttpGet httpGet = new HttpGet(url);
@@ -46,7 +43,6 @@ public class GetRequest extends AsyncTask <String, Void, String> {
 
 	}
 
-	//TODO: A faire
     protected void onPostExecute(String result) {
         //a la fin de l'execution  
     	//Log.d("GET Responses", result);

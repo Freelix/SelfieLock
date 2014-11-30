@@ -2,18 +2,15 @@ package com.selfielock.views;
 
 import java.util.Iterator;
 import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.selfielock.R;
 import com.selfielock.database.UserEntity;
 import com.selfielock.database.UserTransactions;
@@ -21,7 +18,6 @@ import com.selfielock.serverCommunication.RequestConstants;
 import com.selfielock.serverCommunication.SerializeToJson;
 import com.selfielock.tabs.MainActivity;
 import com.selfielock.utils.ConnectionStatus;
-import com.selfielock.utils.Constants;
 import com.selfielock.utils.Cryptography;
 import com.selfielock.utils.SLUtils;
 
@@ -41,23 +37,22 @@ public class LogInPage extends Activity {
 		setContentView(R.layout.login_page);
 		context = LogInPage.this;
 	    InitialiseControls();
-
-	    //testConnectionWithServer()
 	}
 	
-	// Send all user data to server before going to MainPage 
-	private void testConnectionWithServer()
+	// Send all user data to server
+	private void uploadUsersToServer()
 	{
-	    // Test
-        UserTransactions ut = new UserTransactions(context);
-        List<UserEntity> listUsers = ut.getAllUsers();
-        
-        for(Iterator<UserEntity> i = listUsers.iterator(); i.hasNext(); ) 
-        {
-            UserEntity user = i.next();
-            SerializeToJson stj = new SerializeToJson(user, RequestConstants.CREATE_USER);
-            stj.toJson();
-        }
+	    if (SLUtils.isOnline(context)) {
+            UserTransactions ut = new UserTransactions(context);
+            List<UserEntity> listUsers = ut.getAllUsers();
+            
+            for(Iterator<UserEntity> i = listUsers.iterator(); i.hasNext(); ) 
+            {
+                UserEntity user = i.next();
+                SerializeToJson stj = new SerializeToJson(user, RequestConstants.CREATE_USER);
+                stj.toJson();
+            }
+	    }
 	}
     
     private OnClickListener btnProfileListener = new OnClickListener() {
@@ -125,14 +120,14 @@ public class LogInPage extends Activity {
   
     private void InitialiseControls()
     {  
-		    // Get controls
-		    btnProfile = (Button) findViewById(R.id.btnProfile);
-		    btnConnect = (Button) findViewById(R.id.btnConnect);
-		    loginEmailText = (EditText) findViewById(R.id.loginEmailText);
-		    loginPasswordText = (EditText) findViewById(R.id.loginPasswordText);
-		  
-		    // Assign a function to them
-		    btnProfile.setOnClickListener(btnProfileListener);
-		    btnConnect.setOnClickListener(btnConnectListener);
+	    // Get controls
+	    btnProfile = (Button) findViewById(R.id.btnProfile);
+	    btnConnect = (Button) findViewById(R.id.btnConnect);
+	    loginEmailText = (EditText) findViewById(R.id.loginEmailText);
+	    loginPasswordText = (EditText) findViewById(R.id.loginPasswordText);
+	  
+	    // Assign a function to them
+	    btnProfile.setOnClickListener(btnProfileListener);
+	    btnConnect.setOnClickListener(btnConnectListener);
     }
 }

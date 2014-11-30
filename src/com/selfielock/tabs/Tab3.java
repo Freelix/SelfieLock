@@ -1,9 +1,15 @@
 package com.selfielock.tabs;
 
-
 import java.util.Iterator;
 import java.util.List;
-
+import android.app.Fragment;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.Toast;
+import com.selfielock.R;
 import com.selfielock.achievement.Achievement;
 import com.selfielock.achievement.AchievementAdapter;
 import com.selfielock.database.AchievementCollection;
@@ -14,21 +20,6 @@ import com.selfielock.serverCommunication.RequestConstants;
 import com.selfielock.serverCommunication.SerializeToJson;
 import com.selfielock.utils.ConnectionStatus;
 import com.selfielock.utils.SLUtils;
-import com.selfielock.R;
-
-import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.app.ActionBar.LayoutParams;
-import android.app.Fragment;
  
 public class Tab3 extends Fragment {
 	

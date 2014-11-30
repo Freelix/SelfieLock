@@ -8,11 +8,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import com.selfielock.R;
 import com.selfielock.utils.ConnectionStatus;
 import com.selfielock.views.LogInPage;
-import com.selfielock.views.ProfilePage;
 import com.selfielock.views.SettingsPage;
  
 public class MainActivity extends Activity {

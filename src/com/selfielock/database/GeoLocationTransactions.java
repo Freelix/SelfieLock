@@ -5,8 +5,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
-import com.selfielock.database.AchievementContract.AchievementScheme;
 import com.selfielock.database.GeoLocationContract.GeoLocationScheme;
 import com.selfielock.utils.SLUtils;
 

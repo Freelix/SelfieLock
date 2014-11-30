@@ -1,16 +1,5 @@
 package com.selfielock.views;
 
-import com.selfielock.R;
-import com.selfielock.database.UserEntity;
-import com.selfielock.database.UserTransactions;
-import com.selfielock.serverCommunication.RequestConstants;
-import com.selfielock.serverCommunication.SerializeToJson;
-import com.selfielock.tabs.MainActivity;
-import com.selfielock.utils.ConnectionStatus;
-import com.selfielock.utils.Constants;
-import com.selfielock.utils.Cryptography;
-import com.selfielock.utils.SLUtils;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -25,8 +14,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.widget.Toast;
+import com.selfielock.R;
+import com.selfielock.database.UserEntity;
+import com.selfielock.database.UserTransactions;
+import com.selfielock.serverCommunication.RequestConstants;
+import com.selfielock.serverCommunication.SerializeToJson;
+import com.selfielock.tabs.MainActivity;
+import com.selfielock.utils.ConnectionStatus;
+import com.selfielock.utils.Constants;
+import com.selfielock.utils.Cryptography;
+import com.selfielock.utils.SLUtils;
 
 public class ProfilePage extends Activity {
     
@@ -64,7 +62,6 @@ public class ProfilePage extends Activity {
 	{  
 	    // Get context
 	    context = ProfilePage.this;
-	    //context.deleteDatabase("SelfieLock.db");
 	    
         // Get controls
 	    imgProfile = (ImageView) findViewById(R.id.imgProfile);
@@ -80,7 +77,6 @@ public class ProfilePage extends Activity {
         // Assign a function to them
 	    btnSaveProfile.setOnClickListener(saveProfileListener);
 	    imgProfile.setOnClickListener(imgProfileListener);
-        
 	}
 	
 	private OnClickListener saveProfileListener = new OnClickListener() {
@@ -160,7 +156,6 @@ public class ProfilePage extends Activity {
     };
     
     private OnClickListener imgProfileListener = new OnClickListener() {
-        
         @Override
         public void onClick(View v) {       
             Intent intent = new Intent();

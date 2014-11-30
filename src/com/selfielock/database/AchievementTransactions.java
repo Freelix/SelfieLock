@@ -1,18 +1,11 @@
 package com.selfielock.database;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
-import com.selfielock.achievement.Achievement;
 import com.selfielock.database.AchievementContract.AchievementScheme;
-import com.selfielock.database.StatsContract.StatsScheme;
-import com.selfielock.database.UserContract.UserScheme;
 import com.selfielock.utils.SLUtils;
 
 public class AchievementTransactions extends DatabaseInstance {

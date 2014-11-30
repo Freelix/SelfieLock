@@ -1,14 +1,9 @@
 package com.selfielock.views;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-import java.util.UUID;
-
 import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
@@ -23,8 +18,6 @@ import android.content.IntentFilter;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.ParcelUuid;
-import android.os.Parcelable;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
@@ -40,28 +33,23 @@ import com.selfielock.R;
 import com.selfielock.achievement.Achievement;
 import com.selfielock.achievement.CustomToast;
 import com.selfielock.achievement.CustomToastPosition;
-import com.selfielock.bluetooth.BlueAckMessage;
-import com.selfielock.bluetooth.BlueAcknowledge;
 import com.selfielock.bluetooth.BlueUtility;
 import com.selfielock.bluetooth.BluetoothMessage;
 import com.selfielock.bluetooth.DiscoveryFinishThread;
-import com.selfielock.database.AchievementCollection;
 import com.selfielock.database.GeoLocationTransactions;
 import com.selfielock.database.LocationCollection;
-import com.selfielock.database.StatsEntity;
-import com.selfielock.database.StatsTransactions;
 import com.selfielock.database.UserEntity;
 import com.selfielock.database.UserTransactions;
-import com.selfielock.location.GeolocationManager;
 import com.selfielock.location.GeoLocation;
+import com.selfielock.location.GeolocationManager;
 import com.selfielock.serverCommunication.RequestConstants;
 import com.selfielock.serverCommunication.SerializeToJson;
 import com.selfielock.utils.ConnectionStatus;
 import com.selfielock.utils.Constants;
 import com.selfielock.utils.CustomBluetoothManager;
 import com.selfielock.utils.Password;
-import com.selfielock.utils.SLUtils;
 import com.selfielock.utils.Password.PasswordStrength;
+import com.selfielock.utils.SLUtils;
 
 public class MainPage extends Fragment{
 	
@@ -103,10 +91,6 @@ public class MainPage extends Fragment{
     // Found devices
     private ArrayList<BluetoothDevice> mDeviceList;
     
-    // Stock the transfered text and image in those controls
-    private TextView mMessageText;
-    private ImageView mImage;
-    
     // Password
     private Password password;
     
@@ -123,12 +107,6 @@ public class MainPage extends Fragment{
 		rootView = inflater.inflate(R.layout.main_page, container, false);
 		InitializeBluetooth();
 	    ConfigureLayout();
-	    
-	    // Create user      
-	    /*UserTransactions ut = new UserTransactions(getActivity());
-	    UserEntity user = ut.getUserByEmail(ConnectionStatus.getUserSignedIn(getActivity()));
-	    SerializeToJson stj = new SerializeToJson(user, RequestConstants.CREATE_USER);
-	    stj.toJson();*/
 
 	    return rootView;
 	}
@@ -315,7 +293,6 @@ public class MainPage extends Fragment{
                 e.printStackTrace();
             }
             
-            
             // Change to Inactive
             imgOnOff.setImageResource(R.drawable.off_button);
             SetProperColorToMessage(txtSearching, intSearchingForConnOff);
@@ -454,7 +431,6 @@ public class MainPage extends Fragment{
                 mBluetoothAdapter.cancelDiscovery();
                 imgOnOff.setImageResource(R.drawable.off_button);
                 SetProperColorToMessage(txtSearching, intSearchingForConnOff);
-                
             }
         });
         
@@ -492,16 +468,6 @@ public class MainPage extends Fragment{
         Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();               
     }
     
-    /*private boolean isValid()
-    {
-        for (BluetoothDevice device: mDeviceList) {
-            if (BlueUtility.verifyIfPhoneHaveTheApp(device))
-                return true;
-        }
-        
-        return false;
-    }*/
-    
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() 
     {
         public void onReceive(Context context, Intent intent) 
@@ -521,108 +487,22 @@ public class MainPage extends Fragment{
                 
                 mProgressDlg.show();
             } else if (BluetoothAdapter.ACTION_DISCOVERY_FINISHED.equals(action)) {
-                BlueUtility.connectionFound = -1;
-                BlueUtility.acceptConnection = false; 
                 
                 if (threadForDiscovery.getIsAlive())
                 {
                     if (mDeviceList.size() > 0)
                     {
-                        boolean sessionValid = true;
-                        int numberOfTime = 0;
-                        int position = 0;
-                        BluetoothDevice device = mDeviceList.get(position);
                         mBluetoothAdapter.cancelDiscovery();
-                        
-                        
-                            //new ListenForConnection().execute();
-                            
-                            
-                            /*boolean temp = device.fetchUuidsWithSdp();
-                            UUID uuid = null;
-                            if( temp ){
-                            uuid = device.getUuids()[0].getUuid();
-                            }
-                            BluetoothSocket tmp = device.createInsecureRfcommSocketToServiceRecord(uuid);
-                            socketSend.connect();*/
-                            
-                            /*BlueAckMessage bam = new BlueAckMessage(socketSend);
-                            bam.sendConnectionRequest(1);
-                            
-                            while (BlueUtility.connectionFound == -1 && numberOfTime <= 50)
-                            {
-                                try {
-                                    Thread.sleep(500);
-                                    numberOfTime++;
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                            
-                            if (numberOfTime > 50)
-                                sessionValid = false;*/
-                        
-                        
-                        /*try {
-                            Thread.sleep(3000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }*/
-                        
-                        //if (sessionValid && BlueUtility.connectionFound == 1)
-                        //{
-                            /*thr.interrupt();
-                            try {
-                                socketSend.close();
-                                socketListen.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }*/
-                        
-                            mProgressDlg.dismiss();
-                            acceptThread.execute();
-                            //InitializePairing();
-                        }
-                        else 
-                            
-                            mBluetoothAdapter.startDiscovery();
+                        mProgressDlg.dismiss();
+                        acceptThread.execute();
                     }
+                    else
+                        mBluetoothAdapter.startDiscovery();
+                }
                              
             } else if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 // Dynamically add devices to the list
                 BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-
-                /*Method getUuidsMethod = null;
-                try {
-                    getUuidsMethod = device.getClass().getMethod("getUuids", null);
-                } catch (NoSuchMethodException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                
-                ParcelUuid[] uuids = null;
-                try {
-                    uuids = (ParcelUuid[]) getUuidsMethod.invoke(device, null);
-                } catch (IllegalAccessException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (IllegalArgumentException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-                
-                for (ParcelUuid uuid: uuids) {
-                    Log.d("BLUEEEE", "UUID: " + uuid.getUuid().toString());
-                    
-                    if (Constants.uuid.compareTo(uuid.getUuid()) == 0)  
-                    {
-                        Log.i("BLUETOOTH", "Device name: " + device.getName());
-                        mDeviceList.add(device);
-                    }
-                }*/
                 
                 if (BlueUtility.verifyIfPhoneHaveTheApp(device)){
                     mDeviceList.add(device);
@@ -632,7 +512,6 @@ public class MainPage extends Fragment{
                         socketSend.connect();
                         mBluetoothAdapter.cancelDiscovery();
                     } catch (IOException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                     
@@ -640,18 +519,13 @@ public class MainPage extends Fragment{
             }
         }
     };
-    
-    private Thread thr;
 
     private class ListenForConnection extends AsyncTask<Void, Integer, BluetoothSocket> {
 
        @Override
        protected BluetoothSocket doInBackground(Void... params) {
            try {
-               socketListen = btserver.accept(); //  3 sec
-               /*BlueAcknowledge ba = new BlueAcknowledge(socketListen, socketSend);
-               thr = new Thread(ba);
-               thr.start();*/
+               socketListen = btserver.accept();
            } 
            catch (IOException e) {
                e.printStackTrace();
@@ -675,12 +549,8 @@ public class MainPage extends Fragment{
                 {              
                     @Override 
                     protected BluetoothSocket doInBackground(Integer... params) 
-                    {   
-                        
-                            //socketListen = btserver.accept();
-                            InitializePairing();
-                       
-  
+                    {
+                        InitializePairing();
                         return socketListen;
                     }
                     
@@ -716,7 +586,6 @@ public class MainPage extends Fragment{
     
     private void InitializePairing()
     {
-        // TODO: Make a random
         int position = 0;
         BluetoothDevice device = mDeviceList.get(position);
         pairDevice(device);
@@ -725,16 +594,13 @@ public class MainPage extends Fragment{
     private void pairDevice(BluetoothDevice device) 
     {
         try 
-        {
-            //socketSend = device.createInsecureRfcommSocketToServiceRecord(Constants.uuid);
-            //socketSend.connect();
-            
+        {   
             UserTransactions ut = new UserTransactions(getActivity());
             UserEntity user = ut.getUserByEmail(ConnectionStatus.getUserSignedIn(getActivity()));
             byte[] profileImage = user.getImage();
              
             // Construct and send the message to the other device
-            BluetoothMessage btMessage = new BluetoothMessage(getResources(), socketSend, password.GetPassword(), profileImage);
+            BluetoothMessage btMessage = new BluetoothMessage(socketSend, password.GetPassword(), profileImage);
             
             btMessage.constructMessages();
         } 

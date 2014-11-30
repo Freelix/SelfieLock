@@ -1,7 +1,6 @@
 package com.selfielock.utils;
 
 import com.selfielock.views.SettingsPage;
-
 import android.app.Activity;
 import android.os.Bundle;
 

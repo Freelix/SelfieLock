@@ -1,7 +1,6 @@
 package com.selfielock.views;
 
 import com.selfielock.R;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -14,7 +13,7 @@ public class SettingsPage extends PreferenceFragment implements OnSharedPreferen
 	
 	private Preference pref;
     private String summaryStr;
-    String newValue;
+    private String newValue;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {

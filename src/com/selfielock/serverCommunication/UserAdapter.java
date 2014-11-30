@@ -1,7 +1,6 @@
 package com.selfielock.serverCommunication;
 
 import java.lang.reflect.Type;
-
 import android.util.Base64;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -75,6 +74,4 @@ public class UserAdapter {
           return jsonObject;      
         }
     }
-
-
 }

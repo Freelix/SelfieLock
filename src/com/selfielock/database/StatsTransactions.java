@@ -1,16 +1,10 @@
 package com.selfielock.database;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
 import com.selfielock.database.StatsContract.StatsScheme;
-import com.selfielock.database.UserContract.UserScheme;
-import com.selfielock.utils.ConnectionStatus;
 
 public class StatsTransactions extends DatabaseInstance {
     

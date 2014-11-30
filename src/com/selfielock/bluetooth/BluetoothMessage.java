@@ -1,28 +1,18 @@
 package com.selfielock.bluetooth;
 
-import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import android.bluetooth.BluetoothSocket;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.util.Log;
-
-import com.selfielock.R;
-import com.selfielock.utils.SLUtils;
 
 public class BluetoothMessage {
     
-    private Resources resources;
-    private BluetoothSocket socket;
-    
+    private BluetoothSocket socket;    
     private String txtMsg;
     private byte[] backgroundImg;
     
-    public BluetoothMessage(Resources resources, BluetoothSocket socket, String txtMsg, byte[] backgroundImg)
+    public BluetoothMessage(BluetoothSocket socket, String txtMsg, byte[] backgroundImg)
     {
-        this.resources = resources;
         this.socket = socket;
         this.txtMsg = txtMsg;
         this.backgroundImg = backgroundImg;
@@ -34,9 +24,6 @@ public class BluetoothMessage {
     
     public void constructMessages()
     {
-        //String txtMsg = "12345"; 
-        //byte[] backgroundImg = SLUtils.ImageToByte(imageId, resources);
-
         sendMessage(txtMsg);
         sendImage(backgroundImg);
     }

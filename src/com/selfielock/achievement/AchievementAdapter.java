@@ -1,13 +1,5 @@
 package com.selfielock.achievement;
 
-import java.util.Iterator;
-
-import com.selfielock.R;
-import com.selfielock.database.AchievementCollection;
-import com.selfielock.database.AchievementTransactions;
-
-import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.selfielock.R;
+import com.selfielock.database.AchievementCollection;
 
 public class AchievementAdapter extends ArrayAdapter<Achievement>{
 
@@ -23,7 +17,6 @@ public class AchievementAdapter extends ArrayAdapter<Achievement>{
     private Achievement data[] = null;
     
     // Request to database
-    private AchievementTransactions at;
     private AchievementCollection ac;
     
     public AchievementAdapter(Context context, int layoutResourceId, Achievement[] data, AchievementCollection ac) {
@@ -31,8 +24,6 @@ public class AchievementAdapter extends ArrayAdapter<Achievement>{
         this.layoutResourceId = layoutResourceId;
         this.context = context;
         this.data = data;
-        
-        this.at = new AchievementTransactions(this.context);
         this.ac = ac;
     }
 
@@ -56,8 +47,6 @@ public class AchievementAdapter extends ArrayAdapter<Achievement>{
         {
             holder = (AchievementHolder)row.getTag();
         }
-        
-        int test = ac.getListAchievements().size();
         
         // Put green on unlocked achievements        
         if (ac.getListAchievements().get(position).isUnlocked())

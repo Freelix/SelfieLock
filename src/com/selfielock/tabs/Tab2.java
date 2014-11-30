@@ -1,36 +1,26 @@
 package com.selfielock.tabs;
 
-import java.util.Arrays;
-
-import com.selfielock.R;
-import com.selfielock.database.StatsEntity;
-import com.selfielock.database.StatsTransactions;
-import com.selfielock.database.UserEntity;
-import com.selfielock.database.UserTransactions;
-import com.selfielock.serverCommunication.RequestConstants;
-import com.selfielock.serverCommunication.SerializeToJson;
-import com.selfielock.utils.ConnectionStatus;
-import com.selfielock.utils.Constants;
-import com.selfielock.utils.SLUtils;
-import com.selfielock.views.ProfilePage;
-
-import android.net.Uri;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.View.OnClickListener;
-import android.webkit.WebView.FindListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.RadioGroup;
-import android.widget.TextView;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+import com.selfielock.R;
+import com.selfielock.database.StatsEntity;
+import com.selfielock.database.StatsTransactions;
+import com.selfielock.database.UserEntity;
+import com.selfielock.database.UserTransactions;
+import com.selfielock.utils.ConnectionStatus;
+import com.selfielock.utils.Constants;
+import com.selfielock.utils.SLUtils;
  
 public class Tab2 extends Fragment {
     
@@ -131,5 +121,4 @@ public class Tab2 extends Fragment {
             }
         }
     }
- 
 }
