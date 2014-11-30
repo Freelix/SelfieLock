@@ -43,7 +43,6 @@ public class AchievementAdapter extends ArrayAdapter<Achievement>{
         
         if(row == null)
         {
-            //LayoutInflater inflater = ((Activity)context).getLayoutInflater();
             LayoutInflater inflater = LayoutInflater.from(context);
             row = inflater.inflate(layoutResourceId, parent, false);
             

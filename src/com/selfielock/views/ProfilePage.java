@@ -89,68 +89,73 @@ public class ProfilePage extends Activity {
         public void onClick(View v) {
             ViewGroup viewGroup = (ViewGroup) findViewById(R.id.RelativeLayoutProfilePage);
             
-            if (SLUtils.IsFormCompleted(viewGroup))
-            {
-                if (SLUtils.IsEmailValid(textEmail.getText().toString()))
+            
+            if (SLUtils.isOnline(context)) {
+                if (SLUtils.IsFormCompleted(viewGroup))
                 {
-                    byte[] byteImage = null;
-                    String encryptedPassword = null;
-                    
-                    try {
-                        byteImage = SLUtils.ImageToByte(imgProfile);
-                        encryptedPassword = Cryptography.encrypt(Cryptography.MASTERPASSWORD, textPassword.getText().toString());
-                    } catch (Exception e) {
-                        Log.d("ProfilePage", "Problem with ImageToByte " + e.getMessage());
-                    }
-                    
-                    if (encryptedPassword != null && byteImage != null)
+                    if (SLUtils.IsEmailValid(textEmail.getText().toString()))
                     {
-                        int selectedId = groupRadioSexe.getCheckedRadioButtonId();
-                        groupRadioSexeBtn = (RadioButton) findViewById(selectedId);
+                        byte[] byteImage = null;
+                        String encryptedPassword = null;
                         
-                        // We create the transaction context
-                        UserTransactions ut = new UserTransactions(context);
-                        
-                        // Check if exists on the server
-                        SerializeToJson stj = new SerializeToJson(textEmail.getText().toString(), RequestConstants.EXIST_USER);
-                        stj.toJson(); 
-                        String response = stj.getJsonStr();
-                        
-                        // We check if this email already exists
-                        if (response.equals("False"))
-                        {
-                            UserEntity newUser = new UserEntity(textFirstName.getText().toString(),
-                                    textLastName.getText().toString(),
-                                    groupRadioSexeBtn.getText().toString(),
-                                    textEmail.getText().toString(),
-                                    byteImage,
-                                    encryptedPassword);
-                            
-                            // Add it to the server
-                            SerializeToJson stjson = new SerializeToJson(newUser, RequestConstants.CREATE_USER);
-                            stjson.toJson();
-                            
-                            // Add it to the local database
-                            ut.AddUser(newUser);
-                            
-                            // Signing in
-                            ConnectionStatus.SignIn(ProfilePage.this, textEmail.getText().toString());
-                            
-                            // Redirect to MainActivity
-                            Intent intent = new Intent(context, MainActivity.class);
-                            startActivity(intent);
-                            
-                            ProfilePage.this.finish();
+                        try {
+                            byteImage = SLUtils.ImageToByte(imgProfile);
+                            encryptedPassword = Cryptography.encrypt(Cryptography.MASTERPASSWORD, textPassword.getText().toString());
+                        } catch (Exception e) {
+                            Log.d("ProfilePage", "Problem with ImageToByte " + e.getMessage());
                         }
-                        else
-                            Toast.makeText(context, getResources().getString(R.string.EmailAlreadyExist), Toast.LENGTH_SHORT).show(); 
+                        
+                        if (encryptedPassword != null && byteImage != null)
+                        {
+                            int selectedId = groupRadioSexe.getCheckedRadioButtonId();
+                            groupRadioSexeBtn = (RadioButton) findViewById(selectedId);
+                            
+                            // We create the transaction context
+                            UserTransactions ut = new UserTransactions(context);
+                            
+                            // Check if exists on the server
+                            SerializeToJson stj = new SerializeToJson(textEmail.getText().toString(), RequestConstants.EXIST_USER);
+                            stj.toJson(); 
+                            String response = stj.getJsonStr();
+                            
+                            // We check if this email already exists
+                            if (response.equals("False"))
+                            {
+                                UserEntity newUser = new UserEntity(textFirstName.getText().toString(),
+                                        textLastName.getText().toString(),
+                                        groupRadioSexeBtn.getText().toString(),
+                                        textEmail.getText().toString(),
+                                        byteImage,
+                                        encryptedPassword);
+                                
+                                // Add it to the server
+                                SerializeToJson stjson = new SerializeToJson(newUser, RequestConstants.CREATE_USER);
+                                stjson.toJson();
+                                
+                                // Add it to the local database
+                                ut.AddUser(newUser);
+                                
+                                // Signing in
+                                ConnectionStatus.SignIn(ProfilePage.this, textEmail.getText().toString());
+                                
+                                // Redirect to MainActivity
+                                Intent intent = new Intent(context, MainActivity.class);
+                                startActivity(intent);
+                                
+                                ProfilePage.this.finish();
+                            }
+                            else
+                                Toast.makeText(context, getResources().getString(R.string.EmailAlreadyExist), Toast.LENGTH_SHORT).show(); 
+                        }
                     }
+                    else
+                        Toast.makeText(context, getResources().getString(R.string.EmailNotValid), Toast.LENGTH_SHORT).show();             
                 }
                 else
-                    Toast.makeText(context, getResources().getString(R.string.EmailNotValid), Toast.LENGTH_SHORT).show();             
+                    Toast.makeText(context, getResources().getString(R.string.SaveError), Toast.LENGTH_SHORT).show();
             }
             else
-                Toast.makeText(context, getResources().getString(R.string.SaveError), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, getResources().getString(R.string.noConnectionCreateProfile), Toast.LENGTH_SHORT).show();
         }
     };
     

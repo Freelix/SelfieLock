@@ -38,7 +38,7 @@
     <string name="LoginPassword">Password</string>
     <string name="LoginConnect">Sign In</string>
     <string name="LoginCreate">Sign Up</string>
-    <string name="LoginError">The username or the password is not correct</string>
+    <string name="LoginError">The username or the password is not correct. It may be append because you dont have an internet connexion</string>
     
     <!-- Tabs -->
     <string name="mainTab1">Main</string>
@@ -76,6 +76,11 @@
     <!-- Errors -->
     <string name="noBluetooth">Your device does not support Bluetooth</string>
     <string name="badCode">The given code is not correct</string>
+    
+    <!--  Internet Connection -->
+    <string name="noConnectionCreateProfile">You have to be connected to internet to create a user</string>
+    <string name="noConnection">You have to be connected to internet</string>
+    <string name="noConnectionAchievements">You have to be connected to internet to get the achievements</string>
     
     <!-- MainPage -->
     <string name="messageActivate">Tap on the button to activate the connection with other devices</string>

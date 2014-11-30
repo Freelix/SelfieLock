@@ -6,12 +6,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import com.selfielock.location.LocationObject;
+import com.selfielock.location.GeoLocation;
 
 public class LocationAdapter {
 
-    public static class UpdateLocationAdapter implements JsonSerializer<LocationObject> {
-        public JsonElement serialize(LocationObject location, Type type, JsonSerializationContext jsc) {
+    public static class UpdateLocationAdapter implements JsonSerializer<GeoLocation> {
+        public JsonElement serialize(GeoLocation location, Type type, JsonSerializationContext jsc) {
           JsonObject jsonObject = new JsonObject();
 
           jsonObject.addProperty("query", "updateLocations");

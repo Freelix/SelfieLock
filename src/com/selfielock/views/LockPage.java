@@ -34,10 +34,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.selfielock.R;
+import com.selfielock.serverCommunication.RequestConstants;
+import com.selfielock.serverCommunication.SerializeToJson;
 import com.selfielock.tabs.MainActivity;
 import com.selfielock.utils.ConnectionStatus;
 import com.selfielock.utils.Constants;
 import com.selfielock.utils.Password;
+import com.selfielock.utils.SLUtils;
 import com.selfielock.utils.Password.PasswordStrength;
 import com.selfielock.achievement.Achievement;
 import com.selfielock.bluetooth.*;
@@ -123,6 +126,12 @@ public class LockPage extends Activity {
         
         st.updateUserStats(stats);
         
+        // Update server if you have an internet connexion
+        if (SLUtils.isOnline(getApplicationContext())) {
+            SerializeToJson stj = new SerializeToJson(stats, RequestConstants.UPDATE_STATS);
+            stj.toJson();
+        }
+        
         return stats;
 	}
 	
@@ -179,7 +188,7 @@ public class LockPage extends Activity {
 	    	    
 	    	    // Update stats/achievements for a user
 	    	    StatsEntity stats = updateStats(true);
-	    	    //updateAchievements(stats);
+	    	    updateAchievements(stats);
 	    	    
 	    		// Go back to MainPage
 	    	    BlueUtility.setEndOfLockPage(true, true);

@@ -45,18 +45,22 @@ import com.selfielock.bluetooth.BlueAcknowledge;
 import com.selfielock.bluetooth.BlueUtility;
 import com.selfielock.bluetooth.BluetoothMessage;
 import com.selfielock.bluetooth.DiscoveryFinishThread;
+import com.selfielock.database.AchievementCollection;
+import com.selfielock.database.GeoLocationTransactions;
+import com.selfielock.database.LocationCollection;
 import com.selfielock.database.StatsEntity;
 import com.selfielock.database.StatsTransactions;
 import com.selfielock.database.UserEntity;
 import com.selfielock.database.UserTransactions;
 import com.selfielock.location.GeolocationManager;
-import com.selfielock.location.LocationObject;
+import com.selfielock.location.GeoLocation;
 import com.selfielock.serverCommunication.RequestConstants;
 import com.selfielock.serverCommunication.SerializeToJson;
 import com.selfielock.utils.ConnectionStatus;
 import com.selfielock.utils.Constants;
 import com.selfielock.utils.CustomBluetoothManager;
 import com.selfielock.utils.Password;
+import com.selfielock.utils.SLUtils;
 import com.selfielock.utils.Password.PasswordStrength;
 
 public class MainPage extends Fragment{
@@ -161,6 +165,7 @@ public class MainPage extends Fragment{
                 String name = "bluetoothserver";
                 try {
                     btserver = mBluetoothAdapter.listenUsingInsecureRfcommWithServiceRecord(name, Constants.uuid);
+                    new ListenForConnection().execute();
                 } catch (IOException e) {
                     e.printStackTrace();
                     return;
@@ -322,14 +327,34 @@ public class MainPage extends Fragment{
             if (BlueUtility.isSuccess()) {
                 toast = new CustomToast(getActivity(), message[0], message[1], R.drawable.success, true);
                 
-                // Update location
                 String email = ConnectionStatus.getUserSignedIn(getActivity());
-                
                 GeolocationManager geo = new GeolocationManager(getActivity());
                 Location loc = geo.getCurrentLocation();
-                LocationObject location = new LocationObject(loc.getLatitude(), loc.getLongitude(), email);
-                SerializeToJson stj = new SerializeToJson(location, RequestConstants.UPDATE_LOCATION);
-                stj.toJson();
+                GeoLocation location = new GeoLocation(loc.getLatitude(), loc.getLongitude(), email);
+                
+                // Update location if you have an internet connexion
+                if (SLUtils.isOnline(getActivity())) {
+                    SerializeToJson stj = new SerializeToJson(location, RequestConstants.UPDATE_LOCATION);
+                    stj.toJson();
+                }
+                
+                // Save location in local database
+                GeoLocationTransactions gt = new GeoLocationTransactions(getActivity());
+                LocationCollection lc = gt.getAllLocationsByUserEmail(email);
+                
+                // Update
+                if (lc.getListLocations().size() > 0)
+                {
+                    gt.updateUserLocations(lc);
+                }
+                else // Create
+                {
+                    List<GeoLocation> geoList = new ArrayList<GeoLocation>();
+                    geoList.add(location);
+                    
+                    lc = new LocationCollection(email, geoList); 
+                    gt.AddGeoLocation(lc);
+                }
             }
             else
                 toast = new CustomToast(getActivity(), message[0], message[1], R.drawable.failed, false);
@@ -425,8 +450,8 @@ public class MainPage extends Fragment{
                 dialog.dismiss();
                 
                 closeConnection();
-                mBluetoothAdapter.cancelDiscovery();
                 threadForDiscovery.interrupt();
+                mBluetoothAdapter.cancelDiscovery();
                 imgOnOff.setImageResource(R.drawable.off_button);
                 SetProperColorToMessage(txtSearching, intSearchingForConnOff);
                 
@@ -467,7 +492,7 @@ public class MainPage extends Fragment{
         Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();               
     }
     
-    private boolean isValid()
+    /*private boolean isValid()
     {
         for (BluetoothDevice device: mDeviceList) {
             if (BlueUtility.verifyIfPhoneHaveTheApp(device))
@@ -475,7 +500,7 @@ public class MainPage extends Fragment{
         }
         
         return false;
-    }
+    }*/
     
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() 
     {
@@ -509,10 +534,9 @@ public class MainPage extends Fragment{
                         BluetoothDevice device = mDeviceList.get(position);
                         mBluetoothAdapter.cancelDiscovery();
                         
-                        try {
-                            new ListenForConnection().execute();
-                            socketSend = device.createInsecureRfcommSocketToServiceRecord(Constants.uuid);
-                            socketSend.connect();
+                        
+                            //new ListenForConnection().execute();
+                            
                             
                             /*boolean temp = device.fetchUuidsWithSdp();
                             UUID uuid = null;
@@ -522,7 +546,7 @@ public class MainPage extends Fragment{
                             BluetoothSocket tmp = device.createInsecureRfcommSocketToServiceRecord(uuid);
                             socketSend.connect();*/
                             
-                            BlueAckMessage bam = new BlueAckMessage(socketSend);
+                            /*BlueAckMessage bam = new BlueAckMessage(socketSend);
                             bam.sendConnectionRequest(1);
                             
                             while (BlueUtility.connectionFound == -1 && numberOfTime <= 50)
@@ -536,11 +560,8 @@ public class MainPage extends Fragment{
                             }
                             
                             if (numberOfTime > 50)
-                                sessionValid = false;
-                        } catch (IOException e) {
-                            sessionValid = false;
-                            e.printStackTrace();
-                        }
+                                sessionValid = false;*/
+                        
                         
                         /*try {
                             Thread.sleep(3000);
@@ -548,27 +569,25 @@ public class MainPage extends Fragment{
                             e.printStackTrace();
                         }*/
                         
-                        if (sessionValid && BlueUtility.connectionFound == 1)
-                        {
-                            thr.interrupt();
+                        //if (sessionValid && BlueUtility.connectionFound == 1)
+                        //{
+                            /*thr.interrupt();
                             try {
                                 socketSend.close();
                                 socketListen.close();
                             } catch (IOException e) {
                                 e.printStackTrace();
-                            }
-                            
-                            acceptThread.execute();
+                            }*/
+                        
                             mProgressDlg.dismiss();
-                            InitializePairing();
+                            acceptThread.execute();
+                            //InitializePairing();
                         }
                         else 
                             
                             mBluetoothAdapter.startDiscovery();
                     }
-                    else
-                        mBluetoothAdapter.startDiscovery();
-                }             
+                             
             } else if (BluetoothDevice.ACTION_FOUND.equals(action)) {
                 // Dynamically add devices to the list
                 BluetoothDevice device = (BluetoothDevice) intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
@@ -607,7 +626,16 @@ public class MainPage extends Fragment{
                 
                 if (BlueUtility.verifyIfPhoneHaveTheApp(device)){
                     mDeviceList.add(device);
-                    mBluetoothAdapter.cancelDiscovery();
+                    
+                    try {
+                        socketSend = device.createInsecureRfcommSocketToServiceRecord(Constants.uuid);
+                        socketSend.connect();
+                        mBluetoothAdapter.cancelDiscovery();
+                    } catch (IOException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    
                 }
             }
         }
@@ -621,9 +649,9 @@ public class MainPage extends Fragment{
        protected BluetoothSocket doInBackground(Void... params) {
            try {
                socketListen = btserver.accept(); //  3 sec
-               BlueAcknowledge ba = new BlueAcknowledge(socketListen, socketSend);
+               /*BlueAcknowledge ba = new BlueAcknowledge(socketListen, socketSend);
                thr = new Thread(ba);
-               thr.start();
+               thr.start();*/
            } 
            catch (IOException e) {
                e.printStackTrace();
@@ -648,11 +676,10 @@ public class MainPage extends Fragment{
                     @Override 
                     protected BluetoothSocket doInBackground(Integer... params) 
                     {   
-                        try {
-                            socketListen = btserver.accept();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        
+                            //socketListen = btserver.accept();
+                            InitializePairing();
+                       
   
                         return socketListen;
                     }
@@ -699,8 +726,8 @@ public class MainPage extends Fragment{
     {
         try 
         {
-            socketSend = device.createInsecureRfcommSocketToServiceRecord(Constants.uuid);
-            socketSend.connect();
+            //socketSend = device.createInsecureRfcommSocketToServiceRecord(Constants.uuid);
+            //socketSend.connect();
             
             UserTransactions ut = new UserTransactions(getActivity());
             UserEntity user = ut.getUserByEmail(ConnectionStatus.getUserSignedIn(getActivity()));

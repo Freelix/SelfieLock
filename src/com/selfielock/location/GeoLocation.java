@@ -1,12 +1,21 @@
 package com.selfielock.location;
 
-public class LocationObject {
+import java.io.Serializable;
 
+public class GeoLocation implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+    
     private double latitude;
     private double longitude;
     private String email;
     
-    public LocationObject(double latitude, double longitude, String email)
+    public GeoLocation()
+    {
+        super();
+    }
+    
+    public GeoLocation(double latitude, double longitude, String email)
     {
         this.latitude = latitude;
         this.longitude = longitude;

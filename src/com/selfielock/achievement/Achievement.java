@@ -22,9 +22,12 @@ public class Achievement implements Serializable {
     
     public Achievement(String description, boolean unlocked)
     {
+        this.id = nextId;
         this.description = description;
         this.unlocked = unlocked;
         this.img = R.drawable.medal_silver;
+        
+        nextId++;
     }
     
     public Achievement(int img, String description) {

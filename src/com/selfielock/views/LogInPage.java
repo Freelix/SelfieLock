@@ -23,6 +23,7 @@ import com.selfielock.tabs.MainActivity;
 import com.selfielock.utils.ConnectionStatus;
 import com.selfielock.utils.Constants;
 import com.selfielock.utils.Cryptography;
+import com.selfielock.utils.SLUtils;
 
 public class LogInPage extends Activity {
 	
@@ -63,10 +64,14 @@ public class LogInPage extends Activity {
 		  
 	    @Override
 	    public void onClick(View v) {
-	    	Intent intent = new Intent(context, ProfilePage.class);
-	    	startActivity(intent);
-	    	
-	    	LogInPage.this.finish();
+	        if (SLUtils.isOnline(context)) {
+    	    	Intent intent = new Intent(context, ProfilePage.class);
+    	    	startActivity(intent);
+    	    	
+    	    	LogInPage.this.finish();
+	        }
+	        else
+	            Toast.makeText(context, getResources().getString(R.string.noConnectionCreateProfile), Toast.LENGTH_SHORT).show();
 	    }
     };
   
@@ -81,13 +86,26 @@ public class LogInPage extends Activity {
 	        
 	        try 
 	        {
-                clearTextPass = Cryptography.decrypt(Cryptography.MASTERPASSWORD, user.getPassword());
+	            if (user != null)
+	                clearTextPass = Cryptography.decrypt(Cryptography.MASTERPASSWORD, user.getPassword());
+	            else {
+	                if (SLUtils.isOnline(context)) {
+    	                SerializeToJson stj = new SerializeToJson(loginEmailText.getText().toString(), RequestConstants.SELECT_USER);
+    	                stj.toJson();
+    	                user = (UserEntity) stj.toObject();
+    	                
+    	                if (user != null) {
+    	                    clearTextPass = Cryptography.decrypt(Cryptography.MASTERPASSWORD, user.getPassword());
+                            ut.AddUser(user);
+    	                }
+	                }
+	            }
             } 
 	        catch (Exception e) {
                 e.printStackTrace();
             }
 	        
-	        if (user != null && clearTextPass != null && clearTextPass.equals(loginPasswordText.getText().toString()))
+	        if (clearTextPass != null && clearTextPass.equals(loginPasswordText.getText().toString()))
 	        {
 	            // Signing in
                 ConnectionStatus.SignIn(LogInPage.this, loginEmailText.getText().toString());

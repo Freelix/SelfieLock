@@ -9,10 +9,13 @@ import java.io.Serializable;
 
 import org.apache.commons.validator.routines.EmailValidator;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Base64;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -107,5 +110,11 @@ public class SLUtils {
          oos.writeObject( o );
          oos.close();
          return new String( Base64.encode(baos.toByteArray(), 0));
+     }
+     
+     public static boolean isOnline(Context context) {
+         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+         NetworkInfo netInfo = cm.getActiveNetworkInfo();
+         return netInfo != null && netInfo.isConnectedOrConnecting();
      }
 }

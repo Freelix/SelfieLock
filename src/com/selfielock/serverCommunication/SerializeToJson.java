@@ -17,7 +17,7 @@ import com.google.gson.GsonBuilder;
 import com.selfielock.achievement.Achievement;
 import com.selfielock.database.StatsEntity;
 import com.selfielock.database.UserEntity;
-import com.selfielock.location.LocationObject;
+import com.selfielock.location.GeoLocation;
 import com.selfielock.utils.Constants;
 
 public class SerializeToJson {
@@ -89,7 +89,7 @@ public class SerializeToJson {
             gson = gsonBuilder.registerTypeAdapter(String.class, new AchievementsAdapter.GetAchievementsAdapter()).create();
         }
         else if (request.equals(RequestConstants.UPDATE_LOCATION))
-            gson = gsonBuilder.registerTypeAdapter(LocationObject.class, new LocationAdapter.UpdateLocationAdapter()).create();
+            gson = gsonBuilder.registerTypeAdapter(GeoLocation.class, new LocationAdapter.UpdateLocationAdapter()).create();
         
         sendToServer(gson.toJson(data));
     }
@@ -104,7 +104,7 @@ public class SerializeToJson {
                 String gender = json.getString("gender");
                 String password = json.getString("password");
                 String email = json.getString("email");
-                String image = json.getString("image");
+                String image = "";
                 byte[] imageByte = null;
                 
                 try {
